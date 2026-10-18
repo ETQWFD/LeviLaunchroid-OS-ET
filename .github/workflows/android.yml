@@ -39,7 +39,7 @@ jobs:
         run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "cmake;3.22.1" "ndk;28.2.13676358"
 
       - name: Decode signing keystore
-        if: ${{ env.ANDROID_KEYSTORE_PRESENT != '' }}
+        if: ${{ env.ANDROID_KEYSTORE_PRESENT == 'true' }}
         env:
           KS_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
           KS_STOREPASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
