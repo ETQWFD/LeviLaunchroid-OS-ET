@@ -1117,6 +1117,8 @@
     <string name="cf_key_clear">清除密钥</string>
     <string name="cf_key_required">请输入 API 密钥</string>
     <string name="cf_key_cleared">已清除密钥</string>
-    <string name="cf_key_inline">浏览 CurseForge 需要免费 API 密钥。
-点击这里填写密钥（仅保存在本机）；暂不需要可忽略，不影响启动器和游戏使用。</string>
+    <string name="cf_key_inline">浏览 CurseForge 需要免费 API 密钥（仅保存在本机）。暂不需要可忽略，不影响启动器和游戏使用。</string>
+    <string name="launch_error_arm32_unsupported">这台是 32 位手机，但当前 Minecraft（1.26 新版）只提供 64 位（arm64）库，无法在 32 位设备上运行（官方自 2025 年 3 月起已停止 ARM32 支持）。
+解决方法：安装仍支持 32 位的旧版 Minecraft（1.21.x 及更早），或在 64 位手机上运行本启动器。</string>
+    <string name="cf_config_key_btn">配置 API 密钥（可选）</string>
 </resources>

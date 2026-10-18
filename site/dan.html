@@ -4,74 +4,133 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>后台</title>
+<title>LeviLauncher OS ET · 管理后台</title>
+<link rel="icon" href="icon.png">
 <style>
-:root{--bg:#f6f3ea;--ink:#22311f;--green:#2e4828;--line:#dcd6c6;--card:#fffdf7}
+:root{--bg:#f6f3ea;--ink:#22311f;--green:#2e4828;--green2:#7ba05b;--line:#e0dacb;--card:#fffdf7;--muted:#7c8175;--danger:#b42318}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
-.wrap{max-width:920px;margin:0 auto;padding:0 18px}
-#gate{min-height:100vh;display:flex;align-items:center;justify-content:center}
-.login{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;width:100%;max-width:340px}
-.login h1{font-size:18px;margin:0 0 14px}
-.login input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:12px}
-.login button{width:100%;padding:11px;border:0;border-radius:10px;background:var(--green);color:#fff;font-size:15px;font-weight:600}
-.err{color:#b42318;font-size:13px;min-height:18px;margin:0 0 8px}
-#panel{display:none;padding:30px 0}
-.head{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.head img{width:44px;height:44px;border-radius:10px}
-h1{font-size:20px;margin:0}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-.stat .n{font-size:24px;font-weight:700}
-.stat .l{font-size:12px;color:#7c8175}
-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
-th{background:#eef1e6}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+#gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 30px;width:100%;max-width:360px;text-align:center;box-shadow:0 12px 40px rgba(46,72,40,.08)}
+.login img{width:72px;height:72px;border-radius:18px}
+.login h1{font-size:19px;margin:14px 0 4px}
+.login p.tip{margin:0 0 20px;color:var(--muted);font-size:13px}
+.login input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;background:#fff;outline:none;text-align:center;letter-spacing:2px}
+.login input:focus{border-color:var(--green2)}
+.login button{width:100%;margin-top:14px;padding:12px;border:0;border-radius:12px;background:var(--green);color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+.login button:active{opacity:.85}
+.err{color:var(--danger);font-size:13px;min-height:18px;margin:10px 0 0}
+#panel{display:none;padding:34px 0 48px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:46px;height:46px;border-radius:12px}
+.brand h1{font-size:19px;margin:0;line-height:1.25}
+.brand span{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.actions{display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--green);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:active{opacity:.8}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.stat .n{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+.section-title{font-size:15px;font-weight:700;margin:6px 0 12px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:"";width:4px;height:15px;background:var(--green2);border-radius:2px}
+.tablewrap{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+th{background:#eef1e6;font-size:12.5px;color:#4a5444;font-weight:600;white-space:nowrap}
 tr:last-child td{border-bottom:0}
-.num{text-align:right;font-variant-numeric:tabular-nums}
-.muted{color:#7c8175;font-size:13px}
-a{color:var(--green);word-break:break-all}
+td b{font-size:14.5px}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.asset{color:var(--ink)}
+.muted{color:var(--muted);font-size:12.5px}
+.foot{margin-top:16px;color:var(--muted);font-size:12.5px;text-align:right}
+.loading{padding:50px 0;text-align:center;color:var(--muted);font-size:14px}
+.prebadge{font-size:11px;color:#9a6a00;background:#f7edd3;border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:middle}
 </style>
 </head>
 <body>
-<div id="gate"><div class="wrap"><div class="login">
-<h1>管理员登录</h1>
-<p class="err" id="err"></p>
-<input id="pwd" type="password" placeholder="请输入管理员密码" autocomplete="off">
-<button id="ok">确定</button>
-</div></div></div>
+<div id="gate">
+  <form class="login" id="loginForm" autocomplete="off">
+    <img src="icon.png" alt="LeviLauncher OS ET">
+    <h1>LeviLauncher OS ET</h1>
+    <p class="tip">管理后台 · 请输入管理员密码</p>
+    <input id="pwd" type="password" placeholder="管理员密码" aria-label="管理员密码">
+    <button type="submit">进入后台</button>
+    <p class="err" id="err"></p>
+  </form>
+</div>
 
-<div id="panel"><div class="wrap">
-<div class="head"><img src="icon.png" alt=""><h1>版本与下载统计</h1></div>
-<div class="stats" id="stats"></div>
-<h2 style="font-size:16px;margin:22px 0 10px">各版本下载量</h2>
-<div id="rel"></div>
-<p class="muted" id="updated"></p>
-</div></div>
+<div id="panel">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <img src="icon.png" alt="LeviLauncher OS ET">
+        <h1>版本与下载统计<span>LeviLauncher OS ET 管理后台</span></h1>
+      </div>
+      <div class="actions">
+        <button class="btn" id="refresh" type="button">刷新数据</button>
+        <button class="btn" id="logout" type="button">退出</button>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="section-title">各版本下载量</div>
+    <div class="tablewrap" id="rel"><div class="loading">正在加载数据…</div></div>
+    <p class="foot" id="updated"></p>
+  </div>
+</div>
 
 <script>
 var PASS="1234";
 var REPO="ETQWFD/LeviLaunchroid-OS-ET";
+var gate=document.getElementById("gate");
+var panel=document.getElementById("panel");
+var pwd=document.getElementById("pwd");
 function enter(){
-  var v=document.getElementById("pwd").value;
-  if(v===PASS){
-    document.getElementById("gate").style.display="none";
-    document.getElementById("panel").style.display="block";
+  if(pwd.value===PASS){
+    document.getElementById("err").textContent="";
+    gate.style.display="none";
+    panel.style.display="block";
     load();
   }else{
-    document.getElementById("err").textContent="密码错误";
+    document.getElementById("err").textContent="密码错误，请重试";
+    pwd.select();
   }
 }
-document.getElementById("ok").onclick=enter;
-document.getElementById("pwd").addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
+document.getElementById("loginForm").addEventListener("submit",function(e){e.preventDefault();enter();});
+document.getElementById("logout").onclick=function(){pwd.value="";panel.style.display="none";gate.style.display="flex";};
+document.getElementById("refresh").onclick=function(){load();};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
-function fmt(n){return (n==null?0:n).toLocaleString();}
+function fmt(n){return (n==null?0:n).toLocaleString("zh-CN");}
+function fetchJSON(path){
+  var target="https://api.github.com"+path;
+  var tries=[
+    target,
+    "https://api.allorigins.win/raw?url="+encodeURIComponent(target)
+  ];
+  var p=Promise.reject();
+  tries.forEach(function(u){
+    p=p.catch(function(){
+      return fetch(u,{headers:{"Accept":"application/vnd.github+json"}}).then(function(r){
+        if(!r.ok)throw new Error("HTTP "+r.status);
+        return r.json();
+      });
+    });
+  });
+  return p;
+}
 function load(){
+  document.getElementById("rel").innerHTML='<div class="loading">正在加载数据…</div>';
   Promise.all([
-    fetch("https://api.github.com/repos/"+REPO).then(function(r){if(!r.ok)throw new Error("repo "+r.status);return r.json();}),
-    fetch("https://api.github.com/repos/"+REPO+"/releases?per_page=100").then(function(r){if(!r.ok)throw new Error("rel "+r.status);return r.json();})
+    fetchJSON("/repos/"+REPO),
+    fetchJSON("/repos/"+REPO+"/releases?per_page=100")
   ]).then(function(res){render(res[0],res[1]);})
-  .catch(function(e){document.getElementById("rel").innerHTML='<p class="muted">数据加载失败：'+esc(e.message)+'（GitHub 接口可能存在访问频率限制，请稍后重试）</p>';});
+  .catch(function(e){
+    var msg=String(e.message||"").indexOf("403")>=0?"GitHub 匿名访问频率受限，请稍后或更换网络后重试。":"数据加载失败："+esc(e.message)+"，请稍后重试。";
+    document.getElementById("rel").innerHTML='<div class="loading">'+msg+'</div>';
+  });
 }
 function render(repo,releases){
   var total=0,latest=null;
@@ -94,10 +153,11 @@ function render(repo,releases){
   }).join("");
   var rows=releases.map(function(r){
     var assets=(r.assets||[]).map(function(a){
-      return esc(a.name)+" · <span class='num'>"+fmt(a.download_count)+"</span>";
-    }).join("<br>")||'<span class="muted">无附件</span>';
+      return '<div class="asset">'+esc(a.name)+' <span class="num">'+fmt(a.download_count)+'</span></div>';
+    }).join("")||'<span class="muted">无附件</span>';
     var d=r.published_at?new Date(r.published_at).toLocaleString("zh-CN"):"—";
-    return "<tr><td><b>"+esc(r.tag_name)+"</b>"+(r.prerelease?" <span class='muted'>(预发布)</span>":"")+"<br><span class='muted'>"+d+"</span></td><td>"+assets+"</td><td class='num'><b>"+fmt(r._sum)+"</b></td></tr>";
+    var pre=r.prerelease?'<span class="prebadge">预发布</span>':"";
+    return "<tr><td><b>"+esc(r.tag_name)+"</b>"+pre+"<br><span class='muted'>"+d+"</span></td><td>"+assets+"</td><td class='num'><b>"+fmt(r._sum)+"</b></td></tr>";
   }).join("");
   document.getElementById("rel").innerHTML="<table><thead><tr><th>版本</th><th>附件下载</th><th class='num'>合计</th></tr></thead><tbody>"+rows+"</tbody></table>";
   document.getElementById("updated").textContent="数据来源：GitHub Releases 实时统计 · 更新于 "+new Date().toLocaleString("zh-CN");

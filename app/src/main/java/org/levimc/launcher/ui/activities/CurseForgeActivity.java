@@ -49,6 +49,7 @@ public class CurseForgeActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private ProgressBar loadingProgress;
     private TextView emptyMessage;
+    private MaterialButton btnConfigKey;
     private CurseForgeContentAdapter adapter;
     private CurseForgeClient client;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -133,7 +134,8 @@ public class CurseForgeActivity extends BaseActivity {
         recyclerView = findViewById(R.id.mods_recycler);
         loadingProgress = findViewById(R.id.loading_progress);
         emptyMessage = findViewById(R.id.empty_message);
-        emptyMessage.setOnClickListener(v -> showApiKeyDialog());
+        btnConfigKey = findViewById(R.id.btn_cf_config_key);
+        btnConfigKey.setOnClickListener(v -> showApiKeyDialog());
 
         adapter = new CurseForgeContentAdapter(this::onContentClick, new CurseForgeContentAdapter.OnPageChangeListener() {
             @Override
@@ -249,6 +251,7 @@ public class CurseForgeActivity extends BaseActivity {
         int requestedPage = currentPage;
         loadingProgress.setVisibility(View.VISIBLE);
         emptyMessage.setVisibility(View.GONE);
+        btnConfigKey.setVisibility(View.GONE);
         recyclerView.setVisibility(adapter.getItemCount() > 0 ? View.VISIBLE : View.INVISIBLE);
 
         client.searchContent(query, category != null ? category.id : 0, "",
@@ -261,6 +264,7 @@ public class CurseForgeActivity extends BaseActivity {
                         handler.post(() -> {
                             if (isFinishing() || isDestroyed() || request != requestSequence) return;
                             loadingProgress.setVisibility(View.GONE);
+                            btnConfigKey.setVisibility(View.GONE);
                             if (result != null && result.data != null) {
                                 if (result.pagination != null && result.pagination.totalCount > 0) {
                                     totalPages = Math.max(1, (int) Math.ceil((double) result.pagination.totalCount / PAGE_SIZE));
@@ -290,8 +294,10 @@ public class CurseForgeActivity extends BaseActivity {
                                 recyclerView.setVisibility(View.GONE);
                                 emptyMessage.setText(R.string.cf_key_inline);
                                 emptyMessage.setVisibility(View.VISIBLE);
+                                btnConfigKey.setVisibility(View.VISIBLE);
                                 return;
                             }
+                            btnConfigKey.setVisibility(View.GONE);
                             if (adapter.getItemCount() == 0) {
                                 recyclerView.setVisibility(View.GONE);
                                 emptyMessage.setText(getString(R.string.error_message_format, error.getMessage()));

@@ -8,6 +8,7 @@ import android.content.res.AssetManager
 import android.os.Build
 import android.os.SystemClock
 import android.util.Log
+import org.levimc.launcher.R
 import org.levimc.launcher.core.versions.GameVersion
 import org.levimc.launcher.util.LauncherStorage
 import org.levimc.launcher.util.NativeBridgeHelper
@@ -187,7 +188,18 @@ class GamePackageManager private constructor(
             val apkPaths = apkFiles.map { it.absolutePath }
             apkPaths.forEach { extractFromApk(it, outputDir, getDeviceAbi()) }
         }
+        ensureBundledLibcpp(outputDir)
         verifyLibraries(outputDir)
+
+        // ET 版：纯 32 位设备 + 仅含 arm64 库的新版 Minecraft（官方 2025-03 起停 ARM32）时，
+        // 直接给出清晰的中文架构提示，而不是抛 “libc++_shared.so not found” 这类原始报错。
+        val gameLib = File(outputDir, "libminecraftpe.so")
+        if (!gameLib.exists() || gameLib.length() == 0L) {
+            if (LauncherAbis.is32BitOnly() && apksContainGameLib(apkFiles, "arm64-v8a")) {
+                report("Device is 32-bit only but Minecraft only ships arm64 libraries")
+                throw IllegalStateException(context.getString(R.string.launch_error_arm32_unsupported))
+            }
+        }
 
         if (cacheRequiredLibs.all { File(outputDir, it).let { f -> f.exists() && f.length() > 0 } }) {
             try {
@@ -282,9 +294,6 @@ class GamePackageManager private constructor(
             Log.w(TAG, "APK file does not exist: $apkPath")
             return
         }
-        if (!apkPath.contains("arm") && !apkPath.contains("x86") && !apkPath.contains("base.apk")) {
-            return
-        }
 
         try {
             ZipFile(apkPath).use { zip ->
@@ -351,8 +360,33 @@ class GamePackageManager private constructor(
         }
     }
 
-    private fun verifyLibraries(dir: File) {
-        val missing = getCacheRequiredLibs().filterNot {
+    private fun ensureBundledLibcpp(outputDir: File) {
+        val target = File(outputDir, "libc++_shared.so")
+        if (target.exists() && target.length() > 0) return
+        try {
+            val own = File(context.applicationInfo.nativeLibraryDir, "libc++_shared.so")
+            if (own.exists() && own.length() > 0) {
+                own.inputStream().use { input -> copyStreamToReadOnlyFile(input, target) }
+                report("Provided bundled libc++_shared.so for device ABI")
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to provide bundled libc++_shared.so: ${e.message}")
+        }
+    }
+
+    private fun apksContainGameLib(apkFiles: List<File>, abi: String): Boolean {
+        apkFiles.forEach { apk ->
+            try {
+                ZipFile(apk).use { zip ->
+                    if (zip.getEntry("lib/$abi/libminecraftpe.so") != null) return true
+                }
+            } catch (_: Exception) {
+            }
+        }
+        return false
+    }
+
+    private fun verifyLibraries(dir: File) {        val missing = getCacheRequiredLibs().filterNot {
             File(dir, it).let { f -> f.exists() && f.length() > 0 }
         }
         if (missing.isNotEmpty()) {
@@ -671,7 +705,7 @@ class GamePackageManager private constructor(
 
     companion object {
         private const val TAG = "GamePackageManager"
-        private const val EXTRACTOR_VERSION = 2
+        private const val EXTRACTOR_VERSION = 3
 
         @Volatile
         private var instance: GamePackageManager? = null

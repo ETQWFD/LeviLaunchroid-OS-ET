@@ -1130,6 +1130,8 @@
     <string name="cf_key_clear">Clear key</string>
     <string name="cf_key_required">Please enter an API key</string>
     <string name="cf_key_cleared">API key cleared</string>
-    <string name="cf_key_inline">A free API key is required to browse CurseForge.
-Tap here to enter your key (stored only on this device). You can ignore this; it does not affect the launcher or the game.</string>
+    <string name="cf_key_inline">A free API key is required to browse CurseForge (stored only on this device). You can ignore this; it does not affect the launcher or the game.</string>
+    <string name="launch_error_arm32_unsupported">This is a 32-bit device, but the installed Minecraft (1.26+) ships only 64-bit (arm64) libraries and cannot run on it (ARM32 support was dropped by Mojang in March 2025).
+Fix: install an older 32-bit-compatible Minecraft (1.21.x or earlier), or use this launcher on a 64-bit phone.</string>
+    <string name="cf_config_key_btn">Configure API key (optional)</string>
 </resources>

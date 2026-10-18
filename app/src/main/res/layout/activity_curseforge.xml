@@ -116,18 +116,46 @@
             android:paddingBottom="12dp"
             android:scrollbars="none" />
 
-        <TextView
-            android:id="@+id/empty_message"
+        <LinearLayout
+            android:id="@+id/empty_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="24dp"
+            android:orientation="vertical"
             android:gravity="center"
-            android:fontFamily="@font/misans"
-            android:textSize="13sp"
-            android:textColor="@color/text_secondary"
-            android:text="@string/no_mods_found"
-            android:visibility="gone" />
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/empty_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:fontFamily="@font/misans"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                android:text="@string/no_mods_found"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cf_config_key"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="14dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/misans"
+                android:textSize="13sp"
+                android:text="@string/cf_config_key_btn"
+                android:textColor="@color/on_surface"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/divider"
+                app:cornerRadius="20dp"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/loading_progress"
