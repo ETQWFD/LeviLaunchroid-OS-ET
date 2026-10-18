@@ -8,7 +8,7 @@
 
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">LeviLauncher OS ET</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">लॉन्च करें</string>
     <string name="beta_badge">बीटा</string>
@@ -32,7 +32,7 @@
     <string name="about_title">☕ बारे में</string>
     <string name="copyright">©2024–2026 LeviMC. सर्वाधिकार सुरक्षित।</string>
     <string name="font_license">यह ऐप Misans फ़ॉन्ट का उपयोग करता है।</string>
-    <string name="about_footer_github">GitHub: https://github.com/LiteLDev/LeviLaunchroid</string>
+    <string name="about_footer_github">GitHub: https://github.com/ETQWFD/LeviLaunchroid-OS-ET</string>
     <string name="quick_actions_title">त्वरित कार्य</string>
     <string name="content_mgmt_section_title">सामग्री प्रबंधन</string>
     <string name="misc_section_title">विविध</string>
@@ -873,7 +873,7 @@
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">सोर्स कोड और ओपन सोर्स</string>
     <string name="about_github_repo">GitHub · LeviLauncher</string>
-    <string name="about_github_org">LiteLDev</string>
+    <string name="about_github_org">etc</string>
     <string name="about_license_note">लाइसेंस विवरण के लिए रिपॉजिटरी में LICENSE देखें।</string>
     <string name="about_contribute_title">योगदान करें</string>
     <string name="about_contribute_desc">LeviLauncher को बेहतर बनाने के लिए Issues या Pull Requests के माध्यम से योगदान का स्वागत है।</string>

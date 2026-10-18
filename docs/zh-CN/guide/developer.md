@@ -1,7 +1,7 @@
 # Native Mod 快速开始
 
 本页面描述 LeviLaunchroid native mod 的受支持开发路径。公开 SDK 位于
-[LiteLDev/preloader-android](https://github.com/LiteLDev/preloader-android)。
+[LiteLDev/preloader-android](https://github.com/ETQWFD/preloader-android)。
 
 独立第三方 mod 建议从
 [LeviLauncher Android mod template](https://github.com/QYCottage/levilauncher-android-mod-template)
@@ -120,7 +120,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     preloader_android
-    GIT_REPOSITORY https://github.com/LiteLDev/preloader-android.git
+    GIT_REPOSITORY https://github.com/ETQWFD/preloader-android.git
     GIT_TAG 0.2.2)
 FetchContent_MakeAvailable(preloader_android)
 

@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
 }
 
 def localProperties = new Properties()
@@ -11,8 +9,14 @@ if (localPropertiesFile.exists()) {
     localProperties.load(new FileInputStream(localPropertiesFile))
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 def getGitTag() {
-    def tag = "unknown"
+    def tag = "1.4.0"
     try {
         def stdout = new ByteArrayOutputStream()
         exec {
@@ -47,12 +51,22 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "CURSEFORGE_API_KEY", "\"${localProperties.getProperty('curseforge.api_key', '')}\""
         ndk {
-            //noinspection ChromeOsAbiSupport
-            abiFilters 'arm64-v8a'
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
         }
         externalNativeBuild {
             cmake {
                 arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
             }
         }
     }
@@ -76,10 +90,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            firebaseCrashlytics {
-                mappingFileUploadEnabled true
-                nativeSymbolUploadEnabled true
-            }
+            signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
             ndk {
                 debugSymbolLevel 'FULL'
             }
@@ -90,10 +101,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            firebaseCrashlytics {
-                mappingFileUploadEnabled true
-                nativeSymbolUploadEnabled true
-            }
+            signingConfig signingConfigs.debug
             ndk {
                 debugSymbolLevel 'FULL'
             }
@@ -104,11 +112,8 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            firebaseCrashlytics {
-                mappingFileUploadEnabled true
-                nativeSymbolUploadEnabled true
-            }
-            resValue "string", "app_name", "LeviLauncher Beta"
+            signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
+            resValue "string", "app_name", "LeviLauncher OS ET Beta"
             buildConfigField "boolean", "IS_BETA", "true"
             matchingFallbacks = ["release"]
             ndk {
@@ -156,11 +161,6 @@ dependencies {
     implementation libs.minecraftauth
     implementation libs.commons.httpclient
     implementation libs.commons.gson
-    implementation platform(libs.firebase.bom)
-    implementation libs.firebase.analytics
-    implementation libs.firebase.crashlytics
-    implementation libs.firebase.crashlytics.ndk
-    implementation libs.firebase.messaging
     implementation libs.core.splashscreen
     implementation libs.appcompat
     implementation libs.conscrypt.android
@@ -168,13 +168,11 @@ dependencies {
     implementation libs.material
     implementation libs.gson
     implementation libs.androidx.preference.ktx
-    implementation libs.conscrypt.android
     implementation libs.androidx.games.activity
     implementation libs.okhttp
     implementation libs.androidx.dynamicanimation
     implementation libs.androidx.browser
     implementation libs.xcrash
-    implementation libs.play.services.games.v2
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

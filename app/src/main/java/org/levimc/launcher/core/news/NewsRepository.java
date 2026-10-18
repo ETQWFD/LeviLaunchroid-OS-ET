@@ -30,7 +30,7 @@ public final class NewsRepository {
         void onResult(NewsFeed feed, Throwable error);
     }
 
-    public static final String REMOTE_URL = "https://raw.githubusercontent.com/LiteLDev/LeviLaunchroid/main/resources/launcher/news.json";
+    public static final String REMOTE_URL = "https://raw.githubusercontent.com/ETQWFD/LeviLaunchroid-OS-ET/main/resources/launcher/news.json";
     private static final String ASSET_PATH = "launcher/news.json";
     private static final String CACHE_FILE = "launcher_news.json";
     private static final String PREFS = "launcher_news_repository";

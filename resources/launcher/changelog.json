@@ -9,11 +9,11 @@
       "items": [
         {
           "text": "Completely redesigned the CurseForge interface with a cleaner, more compact layout and better usability on smaller screens.",
-          "url": "https://github.com/LiteLDev/LeviLaunchroid/commit/d6c32c1a0cb750a9c31e913b0abae3ea101d62e1"
+          "url": "https://github.com/ETQWFD/LeviLaunchroid-OS-ET/commit/d6c32c1a0cb750a9c31e913b0abae3ea101d62e1"
         },
         {
           "text": "Refactored storage access and permissions management, removing the old storage migration system.",
-          "url": "https://github.com/LiteLDev/LeviLaunchroid/commit/22d074d1b38afd565eb531bc17c645365cdba3b8"
+          "url": "https://github.com/ETQWFD/LeviLaunchroid-OS-ET/commit/22d074d1b38afd565eb531bc17c645365cdba3b8"
         }
       ]
     },
@@ -22,7 +22,7 @@
       "items": [
         {
           "text": "Fixed Microsoft and Xbox login issues",
-          "url": "https://github.com/LiteLDev/LeviLaunchroid/commit/e9777f9e996def8a5f8c224e138e1d4691e0849e"
+          "url": "https://github.com/ETQWFD/LeviLaunchroid-OS-ET/commit/e9777f9e996def8a5f8c224e138e1d4691e0849e"
         }
       ]
     }

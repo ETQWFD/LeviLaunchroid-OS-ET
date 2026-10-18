@@ -888,8 +888,8 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_marginEnd="12dp"
-                            android:src="@drawable/ic_github"
-                            android:contentDescription="@string/github"
+                            android:src="@drawable/ic_email"
+                            android:contentDescription="@string/contact_author"
                             android:clickable="true"
                             android:focusable="true"
                             app:tint="@color/text_secondary" />
@@ -898,8 +898,8 @@
                             android:id="@+id/settings_btn_discord"
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_discord"
-                            android:contentDescription="@string/discord"
+                            android:src="@drawable/ic_chat_group"
+                            android:contentDescription="@string/join_qq_group"
                             android:clickable="true"
                             android:focusable="true"
                             app:tint="@color/text_secondary" />

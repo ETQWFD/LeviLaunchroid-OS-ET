@@ -14,7 +14,7 @@ export const LINKS = {
   packages: 'https://pkg.levimc.org/',
   /** The blog moved into levimc.org (blog.levimc.org no longer resolves). */
   blog: 'https://levimc.org/blog/',
-  github: 'https://github.com/LiteLDev',
+  github: 'https://github.com/ETQWFD',
 } as const;
 
 export type SiteId = 'home' | 'projects' | 'community' | 'about' | 'packages' | 'blog' | 'docs';
@@ -30,21 +30,21 @@ export interface DocsProject {
 }
 
 export const DOCS_PROJECTS: readonly DocsProject[] = [
-  { id: 'LeviLamina', name: 'LeviLamina', url: 'https://docs.levimc.org/LeviLamina/', repo: 'https://github.com/LiteLDev/LeviLamina', icon: 'grass' },
+  { id: 'LeviLamina', name: 'LeviLamina', url: 'https://docs.levimc.org/LeviLamina/', repo: 'https://github.com/ETQWFD/LeviLamina', icon: 'grass' },
   {
     id: 'LegacyScriptEngine',
     name: 'LegacyScriptEngine',
     url: 'https://docs.levimc.org/LegacyScriptEngine/',
-    repo: 'https://github.com/LiteLDev/LegacyScriptEngine',
+    repo: 'https://github.com/ETQWFD/LegacyScriptEngine',
     icon: 'bookQuill',
   },
-  { id: 'lip', name: 'lip', url: 'https://docs.levimc.org/lip/', repo: 'https://github.com/LiteLDev/lip', icon: 'chest' },
-  { id: 'LeviLauncher', name: 'LeviLauncher', url: 'https://docs.levimc.org/LeviLauncher/', repo: 'https://github.com/LiteLDev/LeviLauncher', icon: 'map' },
+  { id: 'lip', name: 'lip', url: 'https://docs.levimc.org/lip/', repo: 'https://github.com/ETQWFD/lip', icon: 'chest' },
+  { id: 'LeviLauncher', name: 'LeviLauncher', url: 'https://docs.levimc.org/LeviLauncher/', repo: 'https://github.com/ETQWFD/LeviLauncher', icon: 'map' },
   {
     id: 'LeviLaunchroid',
     name: 'LeviLaunchroid',
     url: 'https://docs.levimc.org/LeviLaunchroid/',
-    repo: 'https://github.com/LiteLDev/LeviLaunchroid',
+    repo: 'https://github.com/ETQWFD/LeviLaunchroid-OS-ET',
     icon: 'pickaxe',
   },
 ];

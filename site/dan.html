@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>后台</title>
+<style>
+:root{--bg:#f6f3ea;--ink:#22311f;--green:#2e4828;--line:#dcd6c6;--card:#fffdf7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px}
+#gate{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;width:100%;max-width:340px}
+.login h1{font-size:18px;margin:0 0 14px}
+.login input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:12px}
+.login button{width:100%;padding:11px;border:0;border-radius:10px;background:var(--green);color:#fff;font-size:15px;font-weight:600}
+.err{color:#b42318;font-size:13px;min-height:18px;margin:0 0 8px}
+#panel{display:none;padding:30px 0}
+.head{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.head img{width:44px;height:44px;border-radius:10px}
+h1{font-size:20px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stat .n{font-size:24px;font-weight:700}
+.stat .l{font-size:12px;color:#7c8175}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
+th{background:#eef1e6}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.muted{color:#7c8175;font-size:13px}
+a{color:var(--green);word-break:break-all}
+</style>
+</head>
+<body>
+<div id="gate"><div class="wrap"><div class="login">
+<h1>管理员登录</h1>
+<p class="err" id="err"></p>
+<input id="pwd" type="password" placeholder="请输入管理员密码" autocomplete="off">
+<button id="ok">确定</button>
+</div></div></div>
+
+<div id="panel"><div class="wrap">
+<div class="head"><img src="icon.png" alt=""><h1>版本与下载统计</h1></div>
+<div class="stats" id="stats"></div>
+<h2 style="font-size:16px;margin:22px 0 10px">各版本下载量</h2>
+<div id="rel"></div>
+<p class="muted" id="updated"></p>
+</div></div>
+
+<script>
+var PASS="1234";
+var REPO="ETQWFD/LeviLaunchroid-OS-ET";
+function enter(){
+  var v=document.getElementById("pwd").value;
+  if(v===PASS){
+    document.getElementById("gate").style.display="none";
+    document.getElementById("panel").style.display="block";
+    load();
+  }else{
+    document.getElementById("err").textContent="密码错误";
+  }
+}
+document.getElementById("ok").onclick=enter;
+document.getElementById("pwd").addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function fmt(n){return (n==null?0:n).toLocaleString();}
+function load(){
+  Promise.all([
+    fetch("https://api.github.com/repos/"+REPO).then(function(r){if(!r.ok)throw new Error("repo "+r.status);return r.json();}),
+    fetch("https://api.github.com/repos/"+REPO+"/releases?per_page=100").then(function(r){if(!r.ok)throw new Error("rel "+r.status);return r.json();})
+  ]).then(function(res){render(res[0],res[1]);})
+  .catch(function(e){document.getElementById("rel").innerHTML='<p class="muted">数据加载失败：'+esc(e.message)+'（GitHub 接口可能存在访问频率限制，请稍后重试）</p>';});
+}
+function render(repo,releases){
+  var total=0,latest=null;
+  releases.forEach(function(r){
+    var rv=0;(r.assets||[]).forEach(function(a){rv+=a.download_count;});
+    r._sum=rv;total+=rv;
+    if(!latest&&!r.prerelease&&!r.draft)latest=r;
+  });
+  if(!latest&&releases.length)latest=releases[0];
+  var stats=[
+    ["总下载量",fmt(total)],
+    ["最新版本",latest?esc(latest.tag_name):"—"],
+    ["收藏人数",fmt(repo.stargazers_count)],
+    ["关注人数",fmt(repo.subscribers_count)],
+    ["派生数量",fmt(repo.forks_count)],
+    ["发布版本数",fmt(releases.length)]
+  ];
+  document.getElementById("stats").innerHTML=stats.map(function(s){
+    return '<div class="stat"><div class="n">'+s[1]+'</div><div class="l">'+s[0]+'</div></div>';
+  }).join("");
+  var rows=releases.map(function(r){
+    var assets=(r.assets||[]).map(function(a){
+      return esc(a.name)+" · <span class='num'>"+fmt(a.download_count)+"</span>";
+    }).join("<br>")||'<span class="muted">无附件</span>';
+    var d=r.published_at?new Date(r.published_at).toLocaleString("zh-CN"):"—";
+    return "<tr><td><b>"+esc(r.tag_name)+"</b>"+(r.prerelease?" <span class='muted'>(预发布)</span>":"")+"<br><span class='muted'>"+d+"</span></td><td>"+assets+"</td><td class='num'><b>"+fmt(r._sum)+"</b></td></tr>";
+  }).join("");
+  document.getElementById("rel").innerHTML="<table><thead><tr><th>版本</th><th>附件下载</th><th class='num'>合计</th></tr></thead><tbody>"+rows+"</tbody></table>";
+  document.getElementById("updated").textContent="数据来源：GitHub Releases 实时统计 · 更新于 "+new Date().toLocaleString("zh-CN");
+}
+</script>
+</body>
+</html>

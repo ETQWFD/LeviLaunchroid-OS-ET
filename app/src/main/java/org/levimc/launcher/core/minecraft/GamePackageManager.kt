@@ -48,11 +48,15 @@ class GamePackageManager private constructor(
 
     private val extractableLibs = requiredLibs + optionalLibs
 
-    private val systemLoadedLibs = arrayOf(
-        "libPlayFabMultiplayer.so",
-        "libmaesdk.so",
-        "libgxcore.so",
-    )
+    private val systemLoadedLibs = if (LauncherAbis.hasArm64()) {
+        arrayOf(
+            "libPlayFabMultiplayer.so",
+            "libmaesdk.so",
+            "libgxcore.so",
+        )
+    } else {
+        emptyArray()
+    }
 
     data class LibraryLoadResult(
         val name: String,

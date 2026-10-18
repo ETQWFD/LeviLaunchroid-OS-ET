@@ -2,11 +2,6 @@
 -keep,includedescriptorclasses class com.microsoft.** { *; }
 -keep,includedescriptorclasses class com.xbox.httpclient.** { *; }
 -keep,includedescriptorclasses class org.fmod.** { *; }
--keep,includedescriptorclasses class com.google.android.gms.games.** { *; }
--keep,includedescriptorclasses class com.google.android.gms.internal.games_v2.** { *; }
--keep,includedescriptorclasses class com.google.android.gms.common.** { *; }
--keep,includedescriptorclasses class com.google.android.gms.tasks.** { *; }
--keep,includedescriptorclasses class com.google.android.gms.drive.** { *; }
 
 -keep class org.spongycastle.jcajce.provider.** { *; }
 -keep class org.spongycastle.jce.provider.** { *; }

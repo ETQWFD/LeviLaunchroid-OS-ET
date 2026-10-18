@@ -13,7 +13,7 @@ This page is for contributors who want to build LeviLaunchroid itself. Native mo
 ## Open the Project
 
 ```bash
-git clone https://github.com/LiteLDev/LeviLaunchroid.git
+git clone https://github.com/ETQWFD/LeviLaunchroid-OS-ET.git
 cd LeviLaunchroid
 ```
 

@@ -60,7 +60,7 @@ export interface DocsConfig {
   repo?: string;
   /**
    * Edit link: a pattern with :path (path relative to contentDir), e.g.
-   * 'https://github.com/LiteLDev/LeviLamina/edit/develop/docs/main/contents/:path', or a function
+   * 'https://github.com/ETQWFD/LeviLamina/edit/develop/docs/main/contents/:path', or a function
    * (source path) → URL | undefined (evaluated at build time). `text` overrides the label per locale.
    */
   editLink?: string | { pattern: string | ((source: string) => string | undefined); text?: Record<string, string> };

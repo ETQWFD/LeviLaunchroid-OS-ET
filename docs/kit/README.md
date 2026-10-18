@@ -547,11 +547,11 @@ Stable test hooks: `data-kit-theme-toggle` (theme menu trigger), `data-kit-theme
 Canonical cross-site URLs (exact, no redirect): Home `https://levimc.org/`, Projects
 `https://levimc.org/projects/`, Community `https://levimc.org/community/`, About `https://levimc.org/about/`,
 Mods (LeviMC Mods, id `packages`) `https://pkg.levimc.org/`, Blog `https://levimc.org/blog/` (blog.levimc.org
-no longer resolves), GitHub `https://github.com/LiteLDev`,
+no longer resolves), GitHub `https://github.com/ETQWFD`,
 Docs `https://docs.levimc.org/{LeviLamina,LegacyScriptEngine,lip,LeviLauncher,LeviLaunchroid}/`,
 Discord `https://discord.gg/v5R5P4vRZk`, Telegram `https://t.me/LiteLoader`, X `https://x.com/levimc_org`,
 YouTube `https://www.youtube.com/@LeviLamina`, `mailto:contact@levimc.org`. lip's repository is
-`https://github.com/LiteLDev/lip` (`futrime/lip` redirects).
+`https://github.com/ETQWFD/lip` (`futrime/lip` redirects).
 
 ## Static chrome & Doxygen
 
@@ -690,7 +690,7 @@ External link verdicts: `ok`, `ok-redirect` (`/releases/latest` and allow-listed
 3. `exclude: ['overrides/**']` (theme overrides are not content). Delete `mkdocs.yml`, `requirements.txt`,
    `overrides/` once the port is merged (the language-redirect script there is replaced by the kit's).
 4. `logo`/`favicon` paths stay as in `theme.logo`/`theme.favicon` (they are copied verbatim).
-5. `editLink: 'https://github.com/LiteLDev/<Repo>/edit/<branch>/<docs_dir>/:path'`.
+5. `editLink: 'https://github.com/ETQWFD/<Repo>/edit/<branch>/<docs_dir>/:path'`.
 6. Fix nav entries pointing at external own-site URLs: `https://docs.levimc.org/LeviLamina/api` →
    `https://docs.levimc.org/LeviLamina/api/`; `https://levimc.org/about` → `https://levimc.org/about/`.
 7. `npm run build` — fix every warning (unresolved links, missing anchors). Known in LeviLamina today:

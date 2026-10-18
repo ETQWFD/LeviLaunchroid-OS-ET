@@ -8,7 +8,7 @@
 
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">LeviLauncher OS ET</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Luncurkan</string>
     <string name="beta_badge">Beta</string>
@@ -32,7 +32,7 @@
     <string name="about_title">☕ Tentang</string>
     <string name="copyright">©2024–2026 LeviMC. All rights reserved.</string>
     <string name="font_license">Aplikasi ini menggunakan font Misans..</string>
-    <string name="about_footer_github">GitHub: https://github.com/LiteLDev/LeviLaunchroid</string>
+    <string name="about_footer_github">GitHub: https://github.com/ETQWFD/LeviLaunchroid-OS-ET</string>
     <string name="quick_actions_title">Tindakan Cepat</string>
     <string name="content_mgmt_section_title">Manajemen Konten</string>
     <string name="misc_section_title">Lain-lain</string>
@@ -873,7 +873,7 @@
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Kode Sumber &amp; Open Source</string>
     <string name="about_github_repo">GitHub · LeviLauncher</string>
-    <string name="about_github_org">LiteLDev</string>
+    <string name="about_github_org">etc</string>
     <string name="about_license_note">Lihat LICENSE di repositori untuk detail lisensi.</string>
     <string name="about_contribute_title">Berkontribusi</string>
     <string name="about_contribute_desc">Kontribusi melalui Issues atau Pull Requests dipersilakan untuk meningkatkan LeviLauncher.</string>

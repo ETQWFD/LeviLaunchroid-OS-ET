@@ -156,7 +156,7 @@ writeFileSync(
 const DOX = {
   project: 'LeviLamina',
   base: '/LeviLamina/',
-  github: 'https://github.com/LiteLDev/LeviLamina',
+  github: 'https://github.com/ETQWFD/LeviLamina',
   // the docs site's locales (mkdocs-static-i18n suffix mode: en at the root, zh under zh/)
   locales: [
     { c: 'en', l: 'en', prefix: '' },

@@ -19,14 +19,13 @@ import okhttp3.Response;
 
 public class AboutActivity extends BaseActivity {
 
-    private static final String AVATAR_URL = "https://avatars.githubusercontent.com/u/62042544?v=4";
-    private static final String URL_AFDIAN = "https://afdian.com/a/DreamGuXiang";
-    private static final String URL_PATREON = "https://www.patreon.com/c/DreamGuXiang";
-    private static final String URL_REPO = "https://github.com/LiteLDev/LeviLaunchroid";
-    private static final String URL_ORG = "https://github.com/LiteLDev";
-    private static final String URL_ISSUES = "https://github.com/LiteLDev/LeviLaunchroid/issues";
-    private static final String MAINTAINER_AVATAR_URL = "https://yt3.googleusercontent.com/ft4khqXZ_fQn-DbSLg91kQy3_JUQ_73rbg18nOcmMtunX5bq25jzrThWQAk9YsFkTKFesUL7sg8=s160-c-k-c0x00ffffff-no-rj";
-    private static final String URL_YOUTUBE = "https://www.youtube.com/c/mrpokeg";
+    private static final String AVATAR_URL = "https://github.com/ETQWFD.png?v=4";
+    private static final String URL_CONTACT = "mailto:2416444244@qq.com";
+    private static final String URL_QQ_GROUP = "http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UxrfqNnJERsNXBPZ3mjlQPCeGl3iti-d&authKey=u9Vs5w%2FC9tUFH4kpxuVx%2BatmXLeu8H05Ubjm%2BVABDH5z56dG%2Bj8hYa0ggctAwtcn&noverify=0&group_code=1104692081";
+    private static final String URL_REPO = "https://github.com/ETQWFD/LeviLaunchroid-OS-ET";
+    private static final String URL_ORG = "https://github.com/ETQWFD";
+    private static final String URL_ISSUES = "https://github.com/ETQWFD/LeviLaunchroid-OS-ET/issues";
+    private static final String MAINTAINER_AVATAR_URL = "https://github.com/ETQWFD.png?v=4";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final OkHttpClient client = new OkHttpClient();
@@ -103,13 +102,13 @@ public class AboutActivity extends BaseActivity {
     }
 
     private void setupLinks() {
-        setupLinkButton(R.id.btn_afdian, URL_AFDIAN);
-        setupLinkButton(R.id.btn_patreon, URL_PATREON);
+        setupLinkButton(R.id.btn_afdian, URL_CONTACT);
+        setupLinkButton(R.id.btn_patreon, URL_QQ_GROUP);
         setupLinkButton(R.id.btn_github_repo, URL_REPO);
         setupLinkButton(R.id.btn_github_org, URL_ORG);
         setupLinkButton(R.id.btn_issues, URL_ISSUES);
         setupLinkButton(R.id.btn_star_fork, URL_REPO);
-        setupLinkButton(R.id.btn_youtube_maintainer, URL_YOUTUBE);
+        setupLinkButton(R.id.btn_youtube_maintainer, URL_REPO);
     }
 
     private void setupLinkButton(int viewId, String url) {

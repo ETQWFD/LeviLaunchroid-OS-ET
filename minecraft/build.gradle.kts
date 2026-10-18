@@ -58,8 +58,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.httpclient)
     implementation(libs.androidx.annotation)
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.iid)
 
     implementation(libs.pkix)
 
@@ -83,14 +81,15 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.extensions)
-    implementation(libs.billing)
+    implementation(libs.billing) {
+        exclude(group = "com.google.android.gms", module = "play-services-location")
+        exclude(group = "com.google.android.gms", module = "play-services-places-placereport")
+    }
     implementation(libs.conscrypt.android)
     implementation(libs.androidx.games.activity)
     implementation(libs.core.splashscreen)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-
-    implementation(libs.firebase.messaging)
-    implementation(libs.firebase.iid)
+    implementation("androidx.documentfile:documentfile:1.0.1")
 }

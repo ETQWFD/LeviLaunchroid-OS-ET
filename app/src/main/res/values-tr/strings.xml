@@ -8,7 +8,7 @@
 
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">LeviLauncher OS ET</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">Başlat</string>
     <string name="beta_badge">Beta</string>
@@ -32,7 +32,7 @@
     <string name="about_title">☕ Hakkında</string>
     <string name="copyright">©2024–2026 LeviMC. Tüm hakları saklıdır.</string>
     <string name="font_license">Bu uygulama Misans yazı tipini kullanmaktadır.</string>
-    <string name="about_footer_github">GitHub: https://github.com/LiteLDev/LeviLaunchroid</string>
+    <string name="about_footer_github">GitHub: https://github.com/ETQWFD/LeviLaunchroid-OS-ET</string>
     <string name="quick_actions_title">Hızlı İşlemler</string>
     <string name="content_mgmt_section_title">İçerik Yönetimi</string>
     <string name="misc_section_title">Çeşitli</string>
@@ -873,7 +873,7 @@
     <string name="about_patreon">Patreon</string>
     <string name="about_source_title">Kaynak Kodu ve Açık Kaynak</string>
     <string name="about_github_repo">GitHub · LeviLauncher</string>
-    <string name="about_github_org">LiteLDev</string>
+    <string name="about_github_org">etc</string>
     <string name="about_license_note">Lisans ayrıntıları için depo içindeki LICENSE dosyasına bakın.</string>
     <string name="about_contribute_title">Katkıda Bulun</string>
     <string name="about_contribute_desc">LeviLauncher\'ı geliştirmek için Issue veya Pull Request aracılığıyla katkıda bulunabilirsiniz.</string>

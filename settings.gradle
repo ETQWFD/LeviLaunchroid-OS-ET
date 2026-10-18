@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "levilauncher"
+rootProject.name = "LeviLaunchroid-OS-ET"
 include ':app'
 include ':minecraft'
 include ':pojav_controls'

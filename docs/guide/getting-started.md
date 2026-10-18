@@ -13,7 +13,7 @@ LeviLauncher is not a replacement for owning Minecraft. It works with the offici
 
 ## Install LeviLauncher
 
-1. Open the [Releases page](https://github.com/LiteLDev/LeviLaunchroid/releases).
+1. Open the [Releases page](https://github.com/ETQWFD/LeviLaunchroid-OS-ET/releases).
 2. Download the latest APK.
 3. Allow installation from the browser or file manager you used to download the APK.
 4. Install the APK and open LeviLauncher.

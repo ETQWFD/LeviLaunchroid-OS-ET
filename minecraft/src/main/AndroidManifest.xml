@@ -24,8 +24,6 @@
         </intent>
     </queries>
 
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-
     <application>
 
         <activity
@@ -85,14 +83,6 @@
         <meta-data
             android:name="appcenter_android_id"
             android:value="@string/appcenter_android_id" />
-
-        <service
-            android:name="com.mojang.minecraftpe.NotificationListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
     </application>
 

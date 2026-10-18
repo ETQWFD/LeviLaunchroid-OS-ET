@@ -250,7 +250,7 @@ object MinecraftRuntimePreparer {
         }
 
         val initializeBundledSdk = gameManager.shouldLoadMallocRedirect()
-        if (initializeBundledSdk) {
+        if (initializeBundledSdk && LauncherAbis.hasArm64()) {
             loadLibrary(gameManager, "PlayFabMultiplayer", 53, true, listener, trace)
             loadLibrary(gameManager, "maesdk", 54, true, listener, trace)
         }
@@ -299,7 +299,9 @@ object MinecraftRuntimePreparer {
                 loadLibrary(gameManager, "MallocRedirect", 66, true, listener, trace)
             }
             loadLibrary(gameManager, "minecraftpe", 70, true, listener, trace)
-            loadLibrary(gameManager, "gxcore", 74, true, listener, trace)
+            if (LauncherAbis.hasArm64()) {
+                loadLibrary(gameManager, "gxcore", 74, true, listener, trace)
+            }
         }
         trace.mark("Minecraft library loading finished")
     }

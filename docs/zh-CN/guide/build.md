@@ -13,7 +13,7 @@
 ## 打开项目
 
 ```bash
-git clone https://github.com/LiteLDev/LeviLaunchroid.git
+git clone https://github.com/ETQWFD/LeviLaunchroid-OS-ET.git
 cd LeviLaunchroid
 ```
 

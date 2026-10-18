@@ -8,7 +8,7 @@
 
 <resources>
     <!-- Common -->
-    <string name="app_name">LeviLauncher</string>
+    <string name="app_name">LeviLauncher OS ET</string>
     <string name="minecraft">Minecraft</string>
     <string name="launch">启动</string>
     <string name="beta_badge">Beta</string>
@@ -30,9 +30,9 @@
 
     <!-- About -->
     <string name="about_title">☕ 关于</string>
-    <string name="copyright">©2024–2026 LeviMC. 保留所有权利</string>
+    <string name="copyright">©2024–2026 etc · LeviLauncher OS ET</string>
     <string name="font_license">本软件使用 Misans 字体</string>
-    <string name="about_footer_github">GitHub: https://github.com/LiteLDev/LeviLaunchroid</string>
+    <string name="about_footer_github">GitHub: https://github.com/ETQWFD/LeviLaunchroid-OS-ET</string>
     <string name="quick_actions_title">快捷操作</string>
     <string name="content_mgmt_section_title">内容管理</string>
     <string name="misc_section_title">其他</string>
@@ -864,16 +864,16 @@
     <string name="vanilla_prefix">原版 %s</string>
 
     <string name="about_page_title">关于</string>
-    <string name="about_subtitle">LeviLauncher — 现代 Minecraft 基岩版启动器</string>
+    <string name="about_subtitle">LeviLauncher OS ET — Minecraft 基岩版启动器（支持32/64位）</string>
     <string name="about_authors_title">👥 作者与维护者</string>
-    <string name="about_author_name">DreamGuXiang</string>
+    <string name="about_author_name">etc</string>
     <string name="about_author_badge">作者</string>
-    <string name="about_author_role">LeviLauncher 作者</string>
-    <string name="about_afdian">爱发电</string>
-    <string name="about_patreon">Patreon</string>
+    <string name="about_author_role">LeviLauncher OS ET</string>
+    <string name="about_afdian">联系作者</string>
+    <string name="about_patreon">加入QQ群</string>
     <string name="about_source_title">源代码与开源</string>
-    <string name="about_github_repo">GitHub · LeviLauncher</string>
-    <string name="about_github_org">LiteLDev</string>
+    <string name="about_github_repo">GitHub · LeviLauncher OS ET</string>
+    <string name="about_github_org">etc</string>
     <string name="about_license_note">许可证详情请参阅仓库中的 LICENSE。</string>
     <string name="about_contribute_title">参与贡献</string>
     <string name="about_contribute_desc">欢迎通过 Issues 或 Pull Requests 改进 LeviLauncher。</string>
@@ -924,9 +924,9 @@
     <string name="description">描述</string>
     <string name="category">类别</string>
     <string name="maintainer">维护者</string>
-    <string name="youtube">YouTube</string>
+    <string name="youtube">GitHub</string>
     <string name="github">GitHub</string>
-    <string name="discord">Discord</string>
+    <string name="discord">QQ群</string>
     <string name="screenshot_date_format">日期：%1$s</string>
     <string name="pagination_page_of">第 %1$d 页，共 %2$s 页</string>
     <string name="pagination_page_one">第 1 页</string>
@@ -1081,4 +1081,7 @@
     <string name="batch_transferring">正在传输 %1$d/%2$d…</string>
     <string name="batch_result">%1$d 个已完成，%2$d 个失败</string>
     <string name="choose_export_folder">选择导出文件夹</string>
+    <string name="contact_author">联系作者</string>
+    <string name="contact_author_email">2416444244@qq.com</string>
+    <string name="join_qq_group">加入QQ群</string>
 </resources>

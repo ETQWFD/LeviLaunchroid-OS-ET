@@ -2,7 +2,7 @@
 
 This page describes the supported developer path for LeviLaunchroid native
 mods. The public SDK is published in
-[LiteLDev/preloader-android](https://github.com/LiteLDev/preloader-android).
+[LiteLDev/preloader-android](https://github.com/ETQWFD/preloader-android).
 
 For standalone third-party mods, start from the
 [LeviLauncher Android mod template](https://github.com/QYCottage/levilauncher-android-mod-template).
@@ -124,7 +124,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     preloader_android
-    GIT_REPOSITORY https://github.com/LiteLDev/preloader-android.git
+    GIT_REPOSITORY https://github.com/ETQWFD/preloader-android.git
     GIT_TAG 0.2.2)
 FetchContent_MakeAvailable(preloader_android)
 

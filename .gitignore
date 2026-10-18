@@ -97,3 +97,5 @@ MinecraftAuth
 commit_msg.txt
 *.patch
 !/app/src/main/cpp/worldtools/vendor/zstd/build/
+keystore.properties
+et-release.jks

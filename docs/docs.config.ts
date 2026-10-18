@@ -2,7 +2,7 @@
 // Port of the former VitePress config: same URLs (cleanUrls), locales, nav, sidebars and labels.
 import { defineDocsConfig, type NavEntry } from './kit/docs/node/config.ts';
 
-const repo = 'https://github.com/LiteLDev/LeviLaunchroid';
+const repo = 'https://github.com/ETQWFD/LeviLaunchroid-OS-ET';
 const releases = `${repo}/releases`;
 // Deploy under another path (e.g. a fork's GitHub Pages) with DOCS_BASE=/<path>/ (VITEPRESS_BASE still works).
 // with-base.mjs applies the same rule to the preview / linkcheck / smoke scripts: keep the two in sync.

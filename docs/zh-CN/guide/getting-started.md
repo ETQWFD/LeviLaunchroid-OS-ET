@@ -13,7 +13,7 @@ LeviLauncher 不是 Minecraft 授权替代品。它依赖官方游戏运行，�
 
 ## 安装 LeviLauncher
 
-1. 打开 [Releases 页面](https://github.com/LiteLDev/LeviLaunchroid/releases)。
+1. 打开 [Releases 页面](https://github.com/ETQWFD/LeviLaunchroid-OS-ET/releases)。
 2. 下载最新 APK。
 3. 允许浏览器或文件管理器安装未知来源应用。
 4. 安装 APK 并打开 LeviLauncher。

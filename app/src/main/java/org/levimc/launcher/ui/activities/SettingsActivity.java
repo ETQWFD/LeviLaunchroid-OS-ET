@@ -771,10 +771,10 @@ public class SettingsActivity extends BaseActivity {
 
     private void setupAboutSection() {
         findViewById(R.id.settings_btn_github).setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/LiteLDev/LeviLaunchroid"))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:2416444244@qq.com"))));
 
         findViewById(R.id.settings_btn_discord).setOnClickListener(v ->
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/jsnzw4ueAt"))));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UxrfqNnJERsNXBPZ3mjlQPCeGl3iti-d&authKey=u9Vs5w%2FC9tUFH4kpxuVx%2BatmXLeu8H05Ubjm%2BVABDH5z56dG%2Bj8hYa0ggctAwtcn&noverify=0&group_code=1104692081"))));
     }
 
     private void handleUpdateButtonClick() {
@@ -791,7 +791,7 @@ public class SettingsActivity extends BaseActivity {
             updateButtonTapCount = 0;
             triggerEasterEgg();
         } else {
-            new GithubReleaseUpdater(this, "LiteLDev", "LeviLaunchroid", permissionResultLauncher).checkUpdate();
+            new GithubReleaseUpdater(this, "ETQWFD", "LeviLaunchroid-OS-ET", permissionResultLauncher).checkUpdate();
         }
     }
 

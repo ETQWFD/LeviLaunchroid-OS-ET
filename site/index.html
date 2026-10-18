@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeviLauncher OS ET — Minecraft 基岩版启动器</title>
+<meta name="description" content="LeviLauncher OS ET，支持 32 位与 64 位安卓手机，免谷歌三件套运行的 Minecraft 基岩版启动器。">
+<link rel="icon" href="icon.png">
+<style>
+:root{--bg:#f6f3ea;--ink:#22311f;--green:#2e4828;--green2:#7ba05b;--line:#dcd6c6;--card:#fffdf7}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
+a{color:var(--green)}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header{padding:46px 0 26px;text-align:center}
+header img{width:96px;height:96px;border-radius:24px}
+h1{font-size:30px;margin:14px 0 6px;letter-spacing:.5px}
+.sub{color:#5c6553;margin:0}
+.badge{display:inline-block;margin-top:12px;font-size:13px;color:var(--green);background:#e7eedb;border:1px solid #cddab8;border-radius:999px;padding:4px 12px}
+.btns{margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:600;font-size:15px}
+.btn.primary{background:var(--green);color:#fff}
+.btn.ghost{background:transparent;color:var(--green);border:1px solid var(--green)}
+section{margin:34px 0}
+h2{font-size:20px;border-left:4px solid var(--green2);padding-left:10px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{margin:0 0 6px;font-size:16px}
+.card p{margin:0;color:#5c6553;font-size:14px}
+.contact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.contact a{word-break:break-all}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 40px;color:#7c8175;font-size:13px;text-align:center}
+.tag{font-size:12px;color:#8a8f83}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<img src="icon.png" alt="LeviLauncher OS ET">
+<h1>LeviLauncher OS ET</h1>
+<p class="sub">轻量的 Minecraft 基岩版安卓启动器</p>
+<span class="badge">支持 32 位 / 64 位 · 免谷歌三件套</span>
+<div class="btns">
+<a class="btn primary" href="https://github.com/ETQWFD/LeviLaunchroid-OS-ET/releases/latest">下载最新版 APK</a>
+<a class="btn ghost" href="https://github.com/ETQWFD/LeviLaunchroid-OS-ET">查看仓库</a>
+</div>
+</header>
+
+<section>
+<h2>特性</h2>
+<div class="grid">
+<div class="card"><h3>32 位也能跑</h3><p>新增 armeabi-v7a 原生构建，老旧 32 位安卓手机同样可以安装启动。</p></div>
+<div class="card"><h3>免谷歌三件套</h3><p>移除了对 Google Play 服务与 Firebase 的运行依赖，不装谷歌服务也能打开使用。</p></div>
+<div class="card"><h3>多版本管理</h3><p>多个游戏版本相互隔离，资源包、世界与配置分开保存。</p></div>
+<div class="card"><h3>外置原生模块</h3><p>支持加载外部 SO 模块，导入自己的正版 APK 直接运行。</p></div>
+</div>
+</section>
+
+<section>
+<h2>安装要求</h2>
+<div class="card">
+<p>Android 9.0 及以上；32 位（armeabi-v7a）或 64 位（arm64-v8a）设备均可；建议保留 2GB 以上可用空间。需要导入你自己拥有授权的 Minecraft 基岩版 APK。</p>
+</div>
+</section>
+
+<section>
+<h2>联系与交流</h2>
+<div class="contact">
+<p>联系作者：<a href="mailto:2416444244@qq.com">2416444244@qq.com</a></p>
+<p>加入 QQ 群：<a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UxrfqNnJERsNXBPZ3mjlQPCeGl3iti-d&authKey=u9Vs5w%2FC9tUFH4kpxuVx%2BatmXLeu8H05Ubjm%2BVABDH5z56dG%2Bj8hYa0ggctAwtcn&noverify=0&group_code=1104692081">点击加入群聊（群号 1104692081）</a></p>
+</div>
+</section>
+
+<footer>
+<p>© 2024–2026 etc · LeviLauncher OS ET</p>
+<p class="tag">本项目基于 LeviLaunchroid 开源项目，遵循其原始开源许可证分发；Minecraft 版权归 Mojang / Microsoft 所有。</p>
+</footer>
+</div>
+<script>
+if(location.protocol==="http:"&&location.hostname!=="localhost"&&location.hostname!=="127.0.0.1"){location.replace("https:"+location.href.substring(5));}
+</script>
+</body>
+</html>
