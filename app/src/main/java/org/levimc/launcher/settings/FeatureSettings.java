@@ -10,6 +10,10 @@ public class FeatureSettings {
     private boolean logcatOverlayEnabled = false;
     private boolean foregroundServiceEnabled = false;
     private Boolean crashUploadEnabled = true;
+    private String mcPackageName = null;
+    private String curseforgeApiKey = null;
+
+    public static final String DEFAULT_MC_PACKAGE_NAME = "com.mojang.minecraftpe";
 
     public enum StorageType {
         INTERNAL,
@@ -51,6 +55,43 @@ public class FeatureSettings {
 
     public boolean isCrashUploadEnabled() { return crashUploadEnabled == null || crashUploadEnabled; }
     public void setCrashUploadEnabled(boolean enabled) { this.crashUploadEnabled = enabled; autoSave(); }
+
+    public String getRawMcPackageName() { return mcPackageName; }
+
+    public String getEffectiveMcPackageName() {
+        if (mcPackageName == null) return DEFAULT_MC_PACKAGE_NAME;
+        String trimmed = mcPackageName.trim();
+        return trimmed.isEmpty() ? DEFAULT_MC_PACKAGE_NAME : trimmed;
+    }
+
+    public boolean isCustomMcPackage() {
+        return mcPackageName != null && !mcPackageName.trim().isEmpty()
+                && !DEFAULT_MC_PACKAGE_NAME.equals(mcPackageName.trim());
+    }
+
+    public void setMcPackageName(String packageName) {
+        if (packageName == null) {
+            this.mcPackageName = null;
+        } else {
+            String trimmed = packageName.trim();
+            this.mcPackageName = trimmed.isEmpty() || DEFAULT_MC_PACKAGE_NAME.equals(trimmed) ? null : trimmed;
+        }
+        autoSave();
+    }
+
+    public void resetMcPackageName() {
+        this.mcPackageName = null;
+        autoSave();
+    }
+
+    public String getCurseforgeApiKey() {
+        return curseforgeApiKey == null ? "" : curseforgeApiKey.trim();
+    }
+
+    public void setCurseforgeApiKey(String key) {
+        this.curseforgeApiKey = key == null ? null : key.trim();
+        autoSave();
+    }
 
 
     private void autoSave() {

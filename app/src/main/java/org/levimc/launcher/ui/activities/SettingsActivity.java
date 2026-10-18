@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -298,6 +299,88 @@ public class SettingsActivity extends BaseActivity {
         SwitchMaterial switchManagedLogin = findViewById(R.id.switch_managed_login);
         switchManagedLogin.setChecked(fs.isLauncherManagedMcLoginEnabled());
         switchManagedLogin.setOnCheckedChangeListener((btn, checked) -> fs.setLauncherManagedMcLoginEnabled(checked));
+
+        setupMcPackageSection(fs);
+    }
+
+    private void setupMcPackageSection(FeatureSettings fs) {
+        TextView current = findViewById(R.id.mc_package_current);
+        EditText input = findViewById(R.id.mc_package_input);
+        Button reset = findViewById(R.id.btn_mc_package_reset);
+        Button apply = findViewById(R.id.btn_mc_package_apply);
+        if (current == null || input == null || reset == null || apply == null) return;
+
+        String effective = fs.getEffectiveMcPackageName();
+        input.setText(effective);
+        updateMcPackageCurrentText(fs, current);
+
+        reset.setOnClickListener(v -> {
+            String now = fs.getEffectiveMcPackageName();
+            input.setText(FeatureSettings.DEFAULT_MC_PACKAGE_NAME);
+            if (!FeatureSettings.DEFAULT_MC_PACKAGE_NAME.equals(now)) {
+                fs.resetMcPackageName();
+                Toast.makeText(this, R.string.mc_package_reset_done, Toast.LENGTH_SHORT).show();
+                restartLauncher();
+            } else {
+                Toast.makeText(this, R.string.mc_package_already_default, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        apply.setOnClickListener(v -> {
+            String value = input.getText() == null ? "" : input.getText().toString().trim();
+            if (value.isEmpty()) {
+                Toast.makeText(this, R.string.mc_package_invalid, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!isValidPackageName(value)) {
+                Toast.makeText(this, R.string.mc_package_invalid, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (value.equals(fs.getEffectiveMcPackageName())) {
+                Toast.makeText(this, R.string.mc_package_unchanged, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            fs.setMcPackageName(value);
+            updateMcPackageCurrentText(fs, current);
+            Toast.makeText(this, R.string.mc_package_restarting, Toast.LENGTH_SHORT).show();
+            input.postDelayed(this::restartLauncher, 600);
+        });
+    }
+
+    private void updateMcPackageCurrentText(FeatureSettings fs, TextView current) {
+        String effective = fs.getEffectiveMcPackageName();
+        if (fs.isCustomMcPackage()) {
+            current.setText(getString(R.string.mc_package_current_custom, effective));
+        } else {
+            current.setText(getString(R.string.mc_package_current_default, effective));
+        }
+    }
+
+    private boolean isValidPackageName(String pkg) {
+        if (pkg.length() == 0 || pkg.length() > 200) return false;
+        String[] segments = pkg.split("\\.");
+        if (segments.length < 2) return false;
+        for (String seg : segments) {
+            if (seg.isEmpty()) return false;
+            if (!seg.matches("[a-zA-Z_][a-zA-Z0-9_]*")) return false;
+        }
+        return true;
+    }
+
+    private void restartLauncher() {
+        try {
+            Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        } catch (Exception ignored) {
+        }
+        finishAffinity();
+        android.os.Process.killProcess(android.os.Process.myPid());
+        Runtime.getRuntime().exit(0);
     }
 
     private void setupPersonalizeSection() {

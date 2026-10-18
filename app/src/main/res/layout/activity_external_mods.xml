@@ -60,7 +60,7 @@
             android:textSize="11sp"
             android:textStyle="bold"
             app:cornerRadius="9dp"
-            app:icon="@drawable/ic_discord"
+            app:icon="@drawable/ic_chat_group"
             app:iconPadding="6dp"
             app:iconSize="17dp"
             app:iconTint="@android:color/white" />

@@ -340,7 +340,7 @@ public class VersionManager {
 
         PackageManager pm = context.getPackageManager();
         try {
-            PackageInfo pi = pm.getPackageInfo(MinecraftLauncher.MC_PACKAGE_NAME, 0);
+            PackageInfo pi = pm.getPackageInfo(MinecraftLauncher.getTargetPackageName(context), 0);
             File versionDir = getVersionDirForPackage(baseDir, pi.packageName);
             if (!versionDir.exists()) versionDir.mkdirs();
             

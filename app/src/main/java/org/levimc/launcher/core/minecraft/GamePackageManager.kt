@@ -30,7 +30,8 @@ class GamePackageManager private constructor(
     private val nativeLibDir: String
     private val applicationInfo: ApplicationInfo
 
-    private val knownPackages = arrayOf(MinecraftLauncher.MC_PACKAGE_NAME)
+    private val knownPackages: Array<String>
+        get() = arrayOf(MinecraftLauncher.getTargetPackageName(context))
 
     private val requiredLibs = buildList {
         add("libc++_shared.so")
@@ -77,7 +78,7 @@ class GamePackageManager private constructor(
         )
         
         if (version != null && !version.isInstalled) {
-            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, MinecraftLauncher.MC_PACKAGE_NAME)
+            applicationInfo = MinecraftLauncher(context).createFakeApplicationInfo(version, MinecraftLauncher.getTargetPackageName(context))
             nativeLibDir = applicationInfo.nativeLibraryDir
         } else {
             applicationInfo = packageContext.applicationInfo
@@ -385,7 +386,7 @@ class GamePackageManager private constructor(
 
     fun shouldLoadMallocRedirect(): Boolean {
         val versionCode = version?.versionCode ?: try {
-            context.packageManager.getPackageInfo(MinecraftLauncher.MC_PACKAGE_NAME, 0).versionName
+            context.packageManager.getPackageInfo(MinecraftLauncher.getTargetPackageName(context), 0).versionName
         } catch (_: Exception) {
             null
         }

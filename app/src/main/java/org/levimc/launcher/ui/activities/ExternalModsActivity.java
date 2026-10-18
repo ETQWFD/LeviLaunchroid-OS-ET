@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Locale;
 
 public final class ExternalModsActivity extends BaseActivity {
-    private static final String COMMUNITY_DISCORD_URL = "https://discord.gg/rMgdpTFFVg";
+    private static final String COMMUNITY_DISCORD_URL = "http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=UxrfqNnJERsNXBPZ3mjlQPCeGl3iti-d&authKey=u9Vs5w%2FC9tUFH4kpxuVx%2BatmXLeu8H05Ubjm%2BVABDH5z56dG%2Bj8hYa0ggctAwtcn&noverify=0&group_code=1104692081";
     private final List<ModCatalog.CatalogMod> allMods = new ArrayList<>();
     private ExternalModsAdapter adapter;
     private RecyclerView recycler;

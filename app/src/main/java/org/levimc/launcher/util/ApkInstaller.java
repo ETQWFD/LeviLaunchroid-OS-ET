@@ -297,7 +297,7 @@ public class ApkInstaller {
             if (info != null) {
                 String pkgName = info.packageName;
                 String vName = info.versionName;
-                if ("com.mojang.minecraftpe".equals(pkgName) && vName != null && !vName.isEmpty()) {
+                if (org.levimc.launcher.core.minecraft.MinecraftLauncher.isTargetPackage(context, pkgName) && vName != null && !vName.isEmpty()) {
                     return vName;
                 }
             }

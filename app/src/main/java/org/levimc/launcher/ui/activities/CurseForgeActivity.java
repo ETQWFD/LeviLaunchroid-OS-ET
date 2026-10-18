@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,7 @@ import org.levimc.launcher.R;
 import org.levimc.launcher.core.curseforge.CurseForgeClient;
 import org.levimc.launcher.core.curseforge.models.Content;
 import org.levimc.launcher.core.curseforge.models.ContentSearchResponse;
+import org.levimc.launcher.settings.FeatureSettings;
 import org.levimc.launcher.ui.adapter.CurseForgeContentAdapter;
 import org.levimc.launcher.util.PersonalizationManager;
 import org.levimc.launcher.util.UIHelper;
@@ -104,6 +106,22 @@ public class CurseForgeActivity extends BaseActivity {
         sortOptions.add(new SortOption("Name", CurseForgeClient.SORT_NAME, "asc"));
     }
 
+    private String cfLabel(String key) {
+        switch (key) {
+            case "All": return getString(R.string.cf_cat_all);
+            case "Addons": return getString(R.string.cf_cat_addons);
+            case "Maps": return getString(R.string.cf_cat_maps);
+            case "Skins": return getString(R.string.cf_cat_skins);
+            case "Textures": return getString(R.string.cf_cat_textures);
+            case "Scripts": return getString(R.string.cf_cat_scripts);
+            case "Popular": return getString(R.string.cf_sort_popular);
+            case "Downloads": return getString(R.string.cf_sort_downloads);
+            case "Recently updated": return getString(R.string.cf_sort_updated);
+            case "Name": return getString(R.string.cf_sort_name);
+            default: return key;
+        }
+    }
+
     private int dp(float value) {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, getResources().getDisplayMetrics()));
     }
@@ -165,7 +183,7 @@ public class CurseForgeActivity extends BaseActivity {
             RadioButton chip = new RadioButton(this);
             chip.setId(View.generateViewId());
             chip.setTag(category);
-            chip.setText(category.name);
+            chip.setText(cfLabel(category.name));
             chip.setTextColor(chipText);
             chip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
             chip.setAllCaps(false);
@@ -199,15 +217,15 @@ public class CurseForgeActivity extends BaseActivity {
         });
 
         currentSort = sortOptions.get(0);
-        btnSort.setText(currentSort.name);
+        btnSort.setText(cfLabel(currentSort.name));
         btnSort.setOnClickListener(view -> {
             PopupMenu menu = new PopupMenu(this, view);
             for (int i = 0; i < sortOptions.size(); i++) {
-                menu.getMenu().add(0, i, i, sortOptions.get(i).name);
+                menu.getMenu().add(0, i, i, cfLabel(sortOptions.get(i).name));
             }
             menu.setOnMenuItemClickListener(item -> {
                 currentSort = sortOptions.get(item.getItemId());
-                btnSort.setText(currentSort.name);
+                btnSort.setText(cfLabel(currentSort.name));
                 currentPage = 1;
                 loadContent();
                 return true;
@@ -267,6 +285,12 @@ public class CurseForgeActivity extends BaseActivity {
                         handler.post(() -> {
                             if (isFinishing() || isDestroyed() || request != requestSequence) return;
                             loadingProgress.setVisibility(View.GONE);
+                            if (error instanceof CurseForgeClient.AuthException) {
+                                recyclerView.setVisibility(View.GONE);
+                                emptyMessage.setVisibility(View.GONE);
+                                showApiKeyDialog();
+                                return;
+                            }
                             if (adapter.getItemCount() == 0) {
                                 recyclerView.setVisibility(View.GONE);
                                 emptyMessage.setText(getString(R.string.error_message_format, error.getMessage()));
@@ -280,6 +304,45 @@ public class CurseForgeActivity extends BaseActivity {
                         });
                     }
                 });
+    }
+
+    private void showApiKeyDialog() {
+        if (isFinishing() || isDestroyed()) return;
+        EditText input = new EditText(this);
+        input.setSingleLine(true);
+        input.setHint(R.string.cf_key_hint);
+        input.setText(FeatureSettings.getInstance().getCurseforgeApiKey());
+        int pad = dp(20);
+        android.widget.LinearLayout box = new android.widget.LinearLayout(this);
+        box.setOrientation(android.widget.LinearLayout.VERTICAL);
+        box.setPadding(pad, pad / 2, pad, 0);
+        box.addView(input);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.cf_key_title)
+                .setMessage(R.string.cf_key_message)
+                .setView(box)
+                .setPositiveButton(R.string.cf_key_save, null)
+                .setNegativeButton(R.string.cf_key_cancel, null)
+                .setNeutralButton(R.string.cf_key_clear, null)
+                .create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String key = input.getText() == null ? "" : input.getText().toString().trim();
+            if (key.isEmpty()) {
+                input.setError(getString(R.string.cf_key_required));
+                return;
+            }
+            FeatureSettings.getInstance().setCurseforgeApiKey(key);
+            dialog.dismiss();
+            currentPage = 1;
+            loadContent();
+        });
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(v -> {
+            FeatureSettings.getInstance().setCurseforgeApiKey("");
+            input.setText("");
+            android.widget.Toast.makeText(this, R.string.cf_key_cleared, android.widget.Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void onContentClick(Content content) {

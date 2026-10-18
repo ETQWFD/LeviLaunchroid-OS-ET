@@ -1,6 +1,7 @@
 package org.levimc.launcher.core.curseforge;
 
 import org.levimc.launcher.BuildConfig;
+import org.levimc.launcher.settings.FeatureSettings;
 import com.google.gson.Gson;
 
 import org.levimc.launcher.core.curseforge.models.ContentSearchResponse;
@@ -75,7 +76,7 @@ public class CurseForgeClient {
 
         Request request = new Request.Builder()
                 .url(urlBuilder.build())
-                .addHeader("x-api-key", API_KEY)
+                .addHeader("x-api-key", resolveKey())
                 .addHeader("Accept", "application/json")
                 .build();
 
@@ -88,7 +89,7 @@ public class CurseForgeClient {
             @Override
             public void onResponse(Call call, Response response) {
                 if (!response.isSuccessful()) {
-                    callback.onError(new IOException("Unexpected code " + response));
+                    callback.onError(httpError(response));
                     return;
                 }
                 
@@ -107,7 +108,7 @@ public class CurseForgeClient {
         String url = BASE_URL + "/v1/mods/" + contentId + "/description";
         Request request = new Request.Builder()
                 .url(url)
-                .addHeader("x-api-key", API_KEY)
+                .addHeader("x-api-key", resolveKey())
                 .addHeader("Accept", "application/json")
                 .build();
 
@@ -120,7 +121,7 @@ public class CurseForgeClient {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
-                    callback.onError(new IOException("Unexpected code " + response));
+                    callback.onError(httpError(response));
                     return;
                 }
 
@@ -142,7 +143,7 @@ public class CurseForgeClient {
 
         Request request = new Request.Builder()
                 .url(urlBuilder.build())
-                .addHeader("x-api-key", API_KEY)
+                .addHeader("x-api-key", resolveKey())
                 .addHeader("Accept", "application/json")
                 .build();
 
@@ -155,7 +156,7 @@ public class CurseForgeClient {
             @Override
             public void onResponse(Call call, Response response) {
                 if (!response.isSuccessful()) {
-                    callback.onError(new IOException("Unexpected code " + response));
+                    callback.onError(httpError(response));
                     return;
                 }
 
@@ -168,5 +169,26 @@ public class CurseForgeClient {
                 }
             }
         });
+    }
+
+    public static class AuthException extends IOException {
+        public AuthException(String message) { super(message); }
+    }
+
+    private String resolveKey() {
+        try {
+            String userKey = FeatureSettings.getInstance().getCurseforgeApiKey();
+            if (userKey != null && !userKey.isEmpty()) return userKey;
+        } catch (Throwable ignored) {
+        }
+        return API_KEY == null ? "" : API_KEY;
+    }
+
+    private IOException httpError(Response response) {
+        int code = response.code();
+        if (code == 401 || code == 403) {
+            return new AuthException("CurseForge API key required (" + code + ")");
+        }
+        return new IOException("Unexpected code " + response);
     }
 }

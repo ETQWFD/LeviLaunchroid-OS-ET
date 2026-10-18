@@ -20,6 +20,20 @@ public class MinecraftLauncher {
     private static final String TAG = "MinecraftLauncher";
     private final Context context;
     public static final String MC_PACKAGE_NAME = "com.mojang.minecraftpe";
+
+    public static String getTargetPackageName(Context ctx) {
+        try {
+            return org.levimc.launcher.settings.FeatureSettings.getInstance().getEffectiveMcPackageName();
+        } catch (Throwable t) {
+            return MC_PACKAGE_NAME;
+        }
+    }
+
+    public static boolean isTargetPackage(Context ctx, String pkg) {
+        if (pkg == null) return false;
+        return pkg.equals(getTargetPackageName(ctx));
+    }
+
     public static final String EXTRA_GAME_VERSION = "org.levimc.launcher.extra.GAME_VERSION";
     public static final String EXTRA_STORAGE_PROFILE_ID = "org.levimc.launcher.extra.STORAGE_PROFILE_ID";
     public static final String EXTRA_STORAGE_FILES_DIR = "org.levimc.launcher.extra.STORAGE_FILES_DIR";
