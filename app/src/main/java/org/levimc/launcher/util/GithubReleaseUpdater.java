@@ -180,57 +180,56 @@ public class GithubReleaseUpdater {
 
     private void downloadApk(String url) {
         activity.runOnUiThread(() -> Toast.makeText(activity, activity.getString(R.string.downloading_update), Toast.LENGTH_SHORT).show());
-        Request request = new Request.Builder().url(url).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                activity.runOnUiThread(() ->
-                        Toast.makeText(activity, activity.getString(R.string.update_failed, e.getMessage()), Toast.LENGTH_LONG).show());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
+        new Thread(() -> {
+            java.util.List<String> candidates = GithubMirrors.candidates(url);
+            Exception last = null;
+            for (String candidate : candidates) {
+                File apkFile = new File(activity.getExternalCacheDir(), "update_apk.apk");
                 InputStream is = null;
                 FileOutputStream fos = null;
                 try {
-                    byte[] buf = new byte[4096];
-                    int len;
-                    long downloaded = 0;
-                    long total = response.body().contentLength();
-                    is = response.body().byteStream();
-                    File apkFile = new File(activity.getExternalCacheDir(), "update_apk.apk");
-                    fos = new FileOutputStream(apkFile);
-
-                    long lastToastTime = 0;
-                    while ((len = is.read(buf)) > 0) {
-                        fos.write(buf, 0, len);
-                        downloaded += len;
-
-                        long now = System.currentTimeMillis();
-                        if (now - lastToastTime > 500 && total > 0) {
-                            int percent = (int) (downloaded * 100 / total);
-                            activity.runOnUiThread(() ->
-                                    Toast.makeText(activity, activity.getString(R.string.update_progress, percent), Toast.LENGTH_SHORT).show());
-                            lastToastTime = now;
+                    Request request = new Request.Builder().url(candidate).build();
+                    try (Response response = client.newCall(request).execute()) {
+                        if (!response.isSuccessful() || response.body() == null) {
+                            last = new java.io.IOException("HTTP " + response.code());
+                            continue;
+                        }
+                        byte[] buf = new byte[4096];
+                        int len;
+                        long downloaded = 0;
+                        long total = response.body().contentLength();
+                        is = response.body().byteStream();
+                        fos = new FileOutputStream(apkFile);
+                        long lastToastTime = 0;
+                        while ((len = is.read(buf)) > 0) {
+                            fos.write(buf, 0, len);
+                            downloaded += len;
+                            long now = System.currentTimeMillis();
+                            if (now - lastToastTime > 500 && total > 0) {
+                                int percent = (int) (downloaded * 100 / total);
+                                activity.runOnUiThread(() ->
+                                        Toast.makeText(activity, activity.getString(R.string.update_progress, percent), Toast.LENGTH_SHORT).show());
+                                lastToastTime = now;
+                            }
+                        }
+                        fos.flush();
+                        if (apkFile.length() > 0) {
+                            installApk(apkFile);
+                            return;
                         }
                     }
-                    fos.flush();
-                    installApk(apkFile);
                 } catch (Exception e) {
-                    activity.runOnUiThread(() ->
-                            Toast.makeText(activity, activity.getString(R.string.update_failed, e.getMessage()), Toast.LENGTH_LONG).show());
+                    last = e;
                 } finally {
-                    try {
-                        if (is != null) is.close();
-                    } catch (Exception ignored) {
-                    }
-                    try {
-                        if (fos != null) fos.close();
-                    } catch (Exception ignored) {
-                    }
+                    try { if (is != null) is.close(); } catch (Exception ignored) {}
+                    try { if (fos != null) fos.close(); } catch (Exception ignored) {}
                 }
             }
-        });
+            Exception finalError = last;
+            activity.runOnUiThread(() ->
+                    Toast.makeText(activity, activity.getString(R.string.update_failed,
+                            finalError == null ? "" : String.valueOf(finalError.getMessage())), Toast.LENGTH_LONG).show());
+        }).start();
     }
 
     private void installApk(File apkFile) {

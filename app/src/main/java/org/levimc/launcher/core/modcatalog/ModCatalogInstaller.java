@@ -22,6 +22,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.levimc.launcher.util.GithubMirrors;
+
 public final class ModCatalogInstaller {
     public interface Callback {
         void onProgress(int progress, boolean importing);
@@ -29,7 +34,14 @@ public final class ModCatalogInstaller {
         void onError(String message);
     }
 
-    private static final OkHttpClient HTTP = new OkHttpClient();
+    private static final OkHttpClient HTTP = new OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(40, TimeUnit.SECONDS)
+            .writeTimeout(40, TimeUnit.SECONDS)
+            .followRedirects(true)
+            .followSslRedirects(true)
+            .retryOnConnectionFailure(true)
+            .build();
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
     private final Context context;
     private final FileHandler fileHandler;
@@ -54,27 +66,24 @@ public final class ModCatalogInstaller {
                 if (!assetName.toLowerCase(Locale.ROOT).endsWith(extension)) assetName += extension;
                 downloadedFile = new File(downloadDir,
                         safeName(mod.id) + "-" + safeName(release.version) + "-" + assetName);
-                Request request = new Request.Builder().url(asset.downloadUrl).build();
-                try (Response response = HTTP.newCall(request).execute()) {
-                    if (!response.isSuccessful() || response.body() == null) {
-                        throw new IllegalStateException("Download failed with HTTP " + response.code());
-                    }
-                    long total = response.body().contentLength();
-                    try (InputStream input = response.body().byteStream();
-                         FileOutputStream output = new FileOutputStream(downloadedFile)) {
-                        byte[] buffer = new byte[16384];
-                        long completed = 0;
-                        int read;
-                        while ((read = input.read(buffer)) != -1) {
-                            output.write(buffer, 0, read);
-                            completed += read;
-                            if (total > 0) {
-                                int progress = Math.min(85, (int) ((completed * 85L) / total));
-                                deliverProgress(callback, progress, false);
-                            }
+
+                List<String> candidates = GithubMirrors.candidates(asset.downloadUrl);
+                Exception lastError = null;
+                boolean downloaded = false;
+                for (String candidate : candidates) {
+                    try {
+                        if (downloadOne(candidate, downloadedFile, callback)) {
+                            downloaded = true;
+                            break;
                         }
-                        output.getFD().sync();
+                    } catch (Exception attemptError) {
+                        lastError = attemptError;
+                        if (downloadedFile.exists()) downloadedFile.delete();
                     }
+                }
+                if (!downloaded) {
+                    if (lastError instanceof Exception) throw (Exception) lastError;
+                    throw new IllegalStateException("Download failed on all mirrors");
                 }
                 if (!verifySha256(downloadedFile, asset.sha256)) {
                     throw new IllegalStateException(context.getString(R.string.external_mods_verification_failed));
@@ -87,6 +96,32 @@ public final class ModCatalogInstaller {
                 deliverError(callback, message(error));
             }
         });
+    }
+
+    private boolean downloadOne(String url, File target, Callback callback) throws Exception {
+        Request request = new Request.Builder().url(url).build();
+        try (Response response = HTTP.newCall(request).execute()) {
+            if (!response.isSuccessful() || response.body() == null) {
+                throw new IllegalStateException("HTTP " + response.code());
+            }
+            long total = response.body().contentLength();
+            try (InputStream input = response.body().byteStream();
+                 FileOutputStream output = new FileOutputStream(target)) {
+                byte[] buffer = new byte[16384];
+                long completed = 0;
+                int read;
+                while ((read = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                    completed += read;
+                    if (total > 0) {
+                        int progress = Math.min(85, (int) ((completed * 85L) / total));
+                        deliverProgress(callback, progress, false);
+                    }
+                }
+                output.getFD().sync();
+            }
+            return target.exists() && target.length() > 0;
+        }
     }
 
     private void importDownloadedFile(File file, ModCatalog.CatalogMod mod,

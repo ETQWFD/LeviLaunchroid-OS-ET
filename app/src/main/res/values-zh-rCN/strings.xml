@@ -1117,4 +1117,6 @@
     <string name="cf_key_clear">清除密钥</string>
     <string name="cf_key_required">请输入 API 密钥</string>
     <string name="cf_key_cleared">已清除密钥</string>
+    <string name="cf_key_inline">浏览 CurseForge 需要免费 API 密钥。
+点击这里填写密钥（仅保存在本机）；暂不需要可忽略，不影响启动器和游戏使用。</string>
 </resources>

@@ -133,6 +133,7 @@ public class CurseForgeActivity extends BaseActivity {
         recyclerView = findViewById(R.id.mods_recycler);
         loadingProgress = findViewById(R.id.loading_progress);
         emptyMessage = findViewById(R.id.empty_message);
+        emptyMessage.setOnClickListener(v -> showApiKeyDialog());
 
         adapter = new CurseForgeContentAdapter(this::onContentClick, new CurseForgeContentAdapter.OnPageChangeListener() {
             @Override
@@ -287,8 +288,8 @@ public class CurseForgeActivity extends BaseActivity {
                             loadingProgress.setVisibility(View.GONE);
                             if (error instanceof CurseForgeClient.AuthException) {
                                 recyclerView.setVisibility(View.GONE);
-                                emptyMessage.setVisibility(View.GONE);
-                                showApiKeyDialog();
+                                emptyMessage.setText(R.string.cf_key_inline);
+                                emptyMessage.setVisibility(View.VISIBLE);
                                 return;
                             }
                             if (adapter.getItemCount() == 0) {

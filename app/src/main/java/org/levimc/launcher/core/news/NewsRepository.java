@@ -37,7 +37,11 @@ public final class NewsRepository {
     private static final String KEY_LAST_REFRESH = "last_refresh";
     private static final long REFRESH_INTERVAL_MS = 5L * 60L * 1000L;
     private static final Gson GSON = new Gson();
-    private static final OkHttpClient HTTP = new OkHttpClient();
+    private static final OkHttpClient HTTP = new OkHttpClient.Builder()
+            .connectTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
+            .build();
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
     private static final Object REFRESH_LOCK = new Object();
@@ -74,23 +78,34 @@ public final class NewsRepository {
             NewsFeed result;
             Throwable resultError = null;
             try {
-                Request request = new Request.Builder()
-                        .url(REMOTE_URL)
-                        .header("Cache-Control", "no-cache")
-                        .build();
-                try (Response response = HTTP.newCall(request).execute()) {
-                    if (!response.isSuccessful() || response.body() == null) {
-                        throw new IllegalStateException("News request failed with HTTP " + response.code());
+                Throwable lastError = null;
+                String json = null;
+                for (String candidate : org.levimc.launcher.util.GithubMirrors.candidates(REMOTE_URL)) {
+                    Request request = new Request.Builder()
+                            .url(candidate)
+                            .header("Cache-Control", "no-cache")
+                            .build();
+                    try (Response response = HTTP.newCall(request).execute()) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            json = response.body().string();
+                            break;
+                        }
+                        lastError = new IllegalStateException("HTTP " + response.code() + " via " + candidate);
+                    } catch (Throwable one) {
+                        lastError = one;
                     }
-                    String json = response.body().string();
-                    NewsFeed feed = parse(json);
-                    writeCache(appContext, json);
-                    memoryCache = feed;
-                    appContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                            .edit().putLong(KEY_LAST_REFRESH, System.currentTimeMillis()).apply();
-                    NewsState.notifyChanged(appContext);
-                    result = feed;
                 }
+                if (json == null) {
+                    if (lastError instanceof Exception) throw (Exception) lastError;
+                    throw new IllegalStateException("News request failed on all mirrors");
+                }
+                NewsFeed feed = parse(json);
+                writeCache(appContext, json);
+                memoryCache = feed;
+                appContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                        .edit().putLong(KEY_LAST_REFRESH, System.currentTimeMillis()).apply();
+                NewsState.notifyChanged(appContext);
+                result = feed;
             } catch (Throwable error) {
                 result = loadLocal(appContext);
                 resultError = error;

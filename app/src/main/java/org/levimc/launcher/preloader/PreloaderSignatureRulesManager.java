@@ -192,19 +192,21 @@ public final class PreloaderSignatureRulesManager {
     }
 
     private static String fetchText(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                Log.w(TAG, "Remote preloader signature rules request failed: " + response.code());
-                return null;
+        for (String candidate : org.levimc.launcher.util.GithubMirrors.candidates(url)) {
+            Request request = new Request.Builder().url(candidate).get().build();
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) {
+                    Log.w(TAG, "Remote preloader signature rules request failed: " + response.code() + " via " + candidate);
+                    continue;
+                }
+                ResponseBody body = response.body();
+                String text = body == null ? null : body.string();
+                if (!isBlank(text)) return text;
+            } catch (Exception e) {
+                Log.w(TAG, "Failed to fetch preloader signature rules via " + candidate, e);
             }
-
-            ResponseBody body = response.body();
-            return body == null ? null : body.string();
-        } catch (Exception e) {
-            Log.w(TAG, "Failed to fetch remote preloader signature rules", e);
-            return null;
         }
+        return null;
     }
 
     private static boolean hasValidRules(String content) {
