@@ -169,14 +169,20 @@ class GamePackageManager private constructor(
         }
         report("Minecraft library cache miss: extracting libraries")
 
+        val deviceAbi = getDeviceAbi()
         if (version != null && !version.isInstalled) {
             val apkPaths = apkFiles.map { it.absolutePath }
-            apkPaths.forEach { extractFromApk(it, outputDir, getDeviceAbi()) }
+            apkPaths.forEach { extractFromApk(it, outputDir, deviceAbi) }
             if (cacheRequiredLibs.any { !File(outputDir, it).exists() }) {
-                Log.w(TAG, "Primary ABI ${getDeviceAbi()} libraries missing, trying fallback ABIs")
-                report("Primary ABI ${getDeviceAbi()} libraries missing, trying fallback ABIs")
-                val fallbackAbis = listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
-                fallbackAbis.filter { it != getDeviceAbi() }.forEach { abi ->
+                Log.w(TAG, "Primary ABI $deviceAbi libraries missing, trying same-bitness fallback ABIs")
+                report("Primary ABI $deviceAbi libraries missing, trying same-bitness fallback ABIs")
+                // 只在与设备相同位宽的 ABI 间回退，绝不能把 arm64 库提取进 32 位目录（位宽不匹配无法加载）。
+                val fallbackAbis = if (LauncherAbis.is32BitOnly()) {
+                    listOf("armeabi-v7a", "x86")
+                } else {
+                    listOf("arm64-v8a", "x86_64")
+                }
+                fallbackAbis.filter { it != deviceAbi }.forEach { abi ->
                     apkPaths.forEach { extractFromApk(it, outputDir, abi) }
                 }
             }
@@ -186,13 +192,15 @@ class GamePackageManager private constructor(
                 copyFromNativeDir(appInfo.nativeLibraryDir, outputDir)
             }
             val apkPaths = apkFiles.map { it.absolutePath }
-            apkPaths.forEach { extractFromApk(it, outputDir, getDeviceAbi()) }
+            apkPaths.forEach { extractFromApk(it, outputDir, deviceAbi) }
         }
-        ensureBundledLibcpp(outputDir)
+        // 启动器自身已为 armv7/arm64 编译并随包携带这两个运行时库，游戏包缺失时用本设备 ABI 的自带库兜底。
+        ensureBundledLauncherLib(outputDir, "libc++_shared.so")
+        ensureBundledLauncherLib(outputDir, "libHttpClient.Android.so")
         verifyLibraries(outputDir)
 
         // ET 版：纯 32 位设备 + 仅含 arm64 库的新版 Minecraft（官方 2025-03 起停 ARM32）时，
-        // 直接给出清晰的中文架构提示，而不是抛 “libc++_shared.so not found” 这类原始报错。
+        // 直接给出清晰的中文架构提示，而不是抛 “xxx.so not found” 这类原始报错。
         val gameLib = File(outputDir, "libminecraftpe.so")
         if (!gameLib.exists() || gameLib.length() == 0L) {
             if (LauncherAbis.is32BitOnly() && apksContainGameLib(apkFiles, "arm64-v8a")) {
@@ -360,17 +368,22 @@ class GamePackageManager private constructor(
         }
     }
 
-    private fun ensureBundledLibcpp(outputDir: File) {
-        val target = File(outputDir, "libc++_shared.so")
+    private fun ensureBundledLauncherLib(outputDir: File, libName: String) {
+        val target = File(outputDir, libName)
         if (target.exists() && target.length() > 0) return
         try {
-            val own = File(context.applicationInfo.nativeLibraryDir, "libc++_shared.so")
+            val own = File(context.applicationInfo.nativeLibraryDir, libName)
             if (own.exists() && own.length() > 0) {
                 own.inputStream().use { input -> copyStreamToReadOnlyFile(input, target) }
-                report("Provided bundled libc++_shared.so for device ABI")
+                if (!processNativeImage(target, true)) {
+                    target.delete()
+                    Log.w(TAG, "Bundled $libName failed native image preparation")
+                    return
+                }
+                report("Provided bundled $libName for device ABI")
             }
         } catch (e: Exception) {
-            Log.w(TAG, "Failed to provide bundled libc++_shared.so: ${e.message}")
+            Log.w(TAG, "Failed to provide bundled $libName: ${e.message}")
         }
     }
 
@@ -705,7 +718,7 @@ class GamePackageManager private constructor(
 
     companion object {
         private const val TAG = "GamePackageManager"
-        private const val EXTRACTOR_VERSION = 3
+        private const val EXTRACTOR_VERSION = 4
 
         @Volatile
         private var instance: GamePackageManager? = null

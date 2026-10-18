@@ -48,6 +48,10 @@ public final class ChangelogManager {
             run(onComplete);
             return;
         }
+        if (activity.isFinishing() || activity.isDestroyed()) {
+            run(onComplete);
+            return;
+        }
 
         View content = LayoutInflater.from(activity).inflate(R.layout.dialog_changelog_content, null, false);
         TextView version = content.findViewById(R.id.changelog_version);
@@ -73,7 +77,13 @@ public final class ChangelogManager {
                 .setPositiveButton(activity.getString(R.string.changelog_continue), null)
                 .setOnDismissAnimationEndListener(onComplete);
         dialog.setCancelable(false);
-        dialog.show();
+        try {
+            dialog.show();
+        } catch (Exception showError) {
+            // Activity 窗口已失效时不再强弹，避免 WindowManager.BadTokenException / WindowLeaked 崩溃。
+            run(onComplete);
+            return;
+        }
         prepareContinueButton(activity, dialog);
         fitDialogToScreen(activity, dialog, content);
     }
