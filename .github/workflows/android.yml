@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_KEYSTORE_PRESENT: ${{ secrets.ANDROID_KEYSTORE != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +39,7 @@ jobs:
         run: sdkmanager "platforms;android-36" "build-tools;35.0.0" "cmake;3.22.1" "ndk;28.2.13676358"
 
       - name: Decode signing keystore
-        if: ${{ secrets.ANDROID_KEYSTORE != '' }}
+        if: ${{ env.ANDROID_KEYSTORE_PRESENT != '' }}
         env:
           KS_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
           KS_STOREPASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -67,7 +69,7 @@ jobs:
           path: LeviLauncher-OS-ET-*.apk
 
       - name: Publish to GitHub Releases
-        if: startsWith(github.ref, 'refs/tags/') && secrets.ANDROID_KEYSTORE != ''
+        if: startsWith(github.ref, 'refs/tags/') && hashFiles('keystore.properties') != ''
         uses: softprops/action-gh-release@v2
         with:
           files: LeviLauncher-OS-ET-v*.apk
