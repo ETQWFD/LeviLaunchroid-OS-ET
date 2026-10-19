@@ -514,6 +514,9 @@
     <string name="minecraft_loading_subtitle">Preparing game files and enabled mods</string>
     <string name="minecraft_loading_status_preparing">Preparing game</string>
     <string name="minecraft_loading_log_title">Launch Log</string>
+    <string name="minecraft_loading_copy_log">Copy log</string>
+    <string name="minecraft_loading_log_copied">Launch log copied to clipboard</string>
+    <string name="minecraft_loading_log_copy_failed">Copy failed</string>
     <string name="minecraft_loading_complete">Game ready</string>
     <string name="minecraft_loading_entering_game">Entering Minecraft</string>
     <string name="minecraft_loading_failed">Launch failed</string>

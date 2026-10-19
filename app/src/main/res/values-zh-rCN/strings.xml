@@ -514,6 +514,9 @@
     <string name="minecraft_loading_subtitle">准备游戏文件与已启用模组</string>
     <string name="minecraft_loading_status_preparing">正在准备运行时</string>
     <string name="minecraft_loading_log_title">启动日志</string>
+    <string name="minecraft_loading_copy_log">复制日志</string>
+    <string name="minecraft_loading_log_copied">启动日志已复制到剪贴板</string>
+    <string name="minecraft_loading_log_copy_failed">复制失败</string>
     <string name="minecraft_loading_complete">运行时已就绪</string>
     <string name="minecraft_loading_entering_game">正在进入 Minecraft</string>
     <string name="minecraft_loading_failed">启动失败</string>

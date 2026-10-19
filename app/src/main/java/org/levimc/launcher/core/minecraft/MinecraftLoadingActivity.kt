@@ -1,6 +1,9 @@
 package org.levimc.launcher.core.minecraft
 
 import android.animation.ValueAnimator
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
@@ -20,6 +23,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import org.levimc.launcher.R
 import org.levimc.launcher.ui.activities.BaseActivity
@@ -53,6 +57,7 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
     private var currentProgress = 0
     private var lastLogMessage: String? = null
     private val visibleLogMessages = ArrayDeque<String>()
+    private val fullLog = StringBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         LauncherBackgroundController.suspendForMinecraft()
@@ -73,6 +78,10 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
         logView = findViewById(R.id.minecraftLaunchLog)
         logScroll = findViewById(R.id.minecraftLaunchLogScroll)
         returnButton = findViewById(R.id.minecraftLaunchReturn)
+
+        findViewById<TextView>(R.id.minecraftLaunchCopyLog).setOnClickListener {
+            copyLaunchLog()
+        }
 
         returnButton.setOnClickListener {
             appendLog("Returning to launcher")
@@ -188,13 +197,27 @@ class MinecraftLoadingActivity : BaseActivity(), MinecraftRuntimePreparer.Progre
         if (message == lastLogMessage) return
         val timestamp = timeFormat.format(Date())
         lastLogMessage = message
-        visibleLogMessages.addLast("[$timestamp] ${trace.formatForUi(message)}")
+        val line = "[$timestamp] ${trace.formatForUi(message)}"
+        fullLog.append(line).append('\n')
+        visibleLogMessages.addLast(line)
         while (visibleLogMessages.size > MAX_VISIBLE_LOG_LINES) {
             visibleLogMessages.removeFirst()
         }
         logView.text = visibleLogMessages.joinToString(separator = "\n", postfix = "\n")
         logScroll.post {
             logScroll.fullScroll(ScrollView.FOCUS_DOWN)
+        }
+    }
+
+    private fun copyLaunchLog() {
+        try {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.setPrimaryClip(
+                ClipData.newPlainText("LeviLauncher OS ET log", fullLog.toString().ifBlank { logView.text })
+            )
+            Toast.makeText(this, R.string.minecraft_loading_log_copied, Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, R.string.minecraft_loading_log_copy_failed, Toast.LENGTH_SHORT).show()
         }
     }
 

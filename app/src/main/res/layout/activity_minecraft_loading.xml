@@ -105,6 +105,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/minecraftLaunchDetail" />
 
+    <TextView
+        android:id="@+id/minecraftLaunchCopyLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:includeFontPadding="false"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp"
+        android:text="@string/minecraft_loading_copy_log"
+        android:textColor="@color/primary"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/minecraftLaunchLogTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/minecraftLaunchLogTitle" />
+
     <ScrollView
         android:id="@+id/minecraftLaunchLogScroll"
         android:layout_width="0dp"
