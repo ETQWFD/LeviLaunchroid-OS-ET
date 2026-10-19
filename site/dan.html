@@ -4,163 +4,160 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>LeviLauncher OS ET · 管理后台</title>
+<title>LeviLauncher OS ET</title>
 <link rel="icon" href="icon.png">
 <style>
-:root{--bg:#f6f3ea;--ink:#22311f;--green:#2e4828;--green2:#7ba05b;--line:#e0dacb;--card:#fffdf7;--muted:#7c8175;--danger:#b42318}
+:root{--paper:#f7f5ef;--ink:#26251f;--sub:#6a6a5f;--line:#ddd8ca;--green:#33512b;--red:#b42318}
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
-.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
 #gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.login{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 30px;width:100%;max-width:360px;text-align:center;box-shadow:0 12px 40px rgba(46,72,40,.08)}
-.login img{width:72px;height:72px;border-radius:18px}
-.login h1{font-size:19px;margin:14px 0 4px}
-.login p.tip{margin:0 0 20px;color:var(--muted);font-size:13px}
-.login input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px;background:#fff;outline:none;text-align:center;letter-spacing:2px}
-.login input:focus{border-color:var(--green2)}
-.login button{width:100%;margin-top:14px;padding:12px;border:0;border-radius:12px;background:var(--green);color:#fff;font-size:15px;font-weight:600;cursor:pointer}
-.login button:active{opacity:.85}
-.err{color:var(--danger);font-size:13px;min-height:18px;margin:10px 0 0}
-#panel{display:none;padding:34px 0 48px}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:26px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:46px;height:46px;border-radius:12px}
-.brand h1{font-size:19px;margin:0;line-height:1.25}
-.brand span{display:block;color:var(--muted);font-size:12px;font-weight:400}
-.actions{display:flex;gap:8px}
-.btn{border:1px solid var(--line);background:var(--card);color:var(--green);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none}
-.btn:active{opacity:.8}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
-.stat .n{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
-.stat .l{font-size:12.5px;color:var(--muted);margin-top:2px}
-.section-title{font-size:15px;font-weight:700;margin:6px 0 12px;display:flex;align-items:center;gap:8px}
-.section-title::before{content:"";width:4px;height:15px;background:var(--green2);border-radius:2px}
-.tablewrap{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:480px}
-th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
-th{background:#eef1e6;font-size:12.5px;color:#4a5444;font-weight:600;white-space:nowrap}
+.login{width:100%;max-width:340px;background:#fffdf8;border:1px solid var(--line);border-radius:14px;padding:30px 26px;text-align:center}
+.login img{width:64px;height:64px;border-radius:14px}
+.login h1{font-size:18px;margin:14px 0 18px}
+.login input{width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;font-size:15px;text-align:center;letter-spacing:3px;background:#fff;outline:none}
+.login input:focus{border-color:var(--green)}
+.login button{width:100%;margin-top:14px;padding:12px;border:0;border-radius:9px;background:var(--green);color:#fff;font-size:15px;cursor:pointer}
+.login .err{color:var(--red);font-size:13px;min-height:18px;margin:12px 0 0}
+#panel{display:none;max-width:920px;margin:0 auto;padding:30px 20px 50px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.bar .b{display:flex;align-items:center;gap:11px}
+.bar img{width:42px;height:42px;border-radius:10px}
+.bar h1{font-size:17px;margin:0}
+.bar span{display:block;font-size:12px;color:var(--sub);font-weight:400}
+.bar button{border:1px solid var(--line);background:#fffdf8;color:var(--green);border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;margin-left:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.card{background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:16px}
+.card .n{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.card .l{font-size:12.5px;color:var(--sub);margin-top:2px}
+.t{font-size:14px;font-weight:600;margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.tw{background:#fffdf8;border:1px solid var(--line);border-radius:12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:460px}
+th,td{padding:12px 15px;text-align:left;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+th{background:#eef0e7;font-size:12.5px;color:#4a5444;font-weight:600}
 tr:last-child td{border-bottom:0}
-td b{font-size:14.5px}
-.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.asset{color:var(--ink)}
-.muted{color:var(--muted);font-size:12.5px}
-.foot{margin-top:16px;color:var(--muted);font-size:12.5px;text-align:right}
-.loading{padding:50px 0;text-align:center;color:var(--muted);font-size:14px}
-.prebadge{font-size:11px;color:#9a6a00;background:#f7edd3;border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:middle}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.muted{color:var(--sub);font-size:12.5px}
+.foot{margin-top:14px;color:var(--sub);font-size:12.5px;text-align:right}
+.wait{padding:46px 0;text-align:center;color:var(--sub)}
 </style>
 </head>
 <body>
 <div id="gate">
-  <form class="login" id="loginForm" autocomplete="off">
-    <img src="icon.png" alt="LeviLauncher OS ET">
-    <h1>LeviLauncher OS ET</h1>
-    <p class="tip">管理后台 · 请输入管理员密码</p>
-    <input id="pwd" type="password" placeholder="管理员密码" aria-label="管理员密码">
-    <button type="submit">进入后台</button>
-    <p class="err" id="err"></p>
-  </form>
+<form class="login" id="loginForm" autocomplete="off">
+<img src="icon.png" alt="">
+<h1>请输入管理指令</h1>
+<input id="code" type="password" inputmode="numeric" aria-label="管理指令">
+<button type="submit">进入</button>
+<p class="err" id="err"></p>
+</form>
 </div>
 
 <div id="panel">
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <img src="icon.png" alt="LeviLauncher OS ET">
-        <h1>版本与下载统计<span>LeviLauncher OS ET 管理后台</span></h1>
-      </div>
-      <div class="actions">
-        <button class="btn" id="refresh" type="button">刷新数据</button>
-        <button class="btn" id="logout" type="button">退出</button>
-      </div>
-    </div>
-    <div class="stats" id="stats"></div>
-    <div class="section-title">各版本下载量</div>
-    <div class="tablewrap" id="rel"><div class="loading">正在加载数据…</div></div>
-    <p class="foot" id="updated"></p>
-  </div>
+<div class="bar">
+<div class="b">
+<img src="icon.png" alt="">
+<h1>下载统计<span>LeviLauncher OS ET</span></h1>
+</div>
+<div>
+<button type="button" id="refresh">刷新</button>
+<button type="button" id="logout">退出</button>
+</div>
+</div>
+<div class="cards" id="cards"></div>
+<div class="t">各版本下载量</div>
+<div class="tw" id="rel"><div class="wait">加载中…</div></div>
+<p class="foot" id="updated"></p>
 </div>
 
 <script>
-var PASS="1234";
+var CODE="1234";
 var REPO="ETQWFD/LeviLaunchroid-OS-ET";
 var gate=document.getElementById("gate");
 var panel=document.getElementById("panel");
-var pwd=document.getElementById("pwd");
+var code=document.getElementById("code");
+
+function showPanel(){
+gate.style.display="none";
+panel.style.display="block";
+load();
+}
 function enter(){
-  if(pwd.value===PASS){
-    document.getElementById("err").textContent="";
-    gate.style.display="none";
-    panel.style.display="block";
-    load();
-  }else{
-    document.getElementById("err").textContent="密码错误，请重试";
-    pwd.select();
-  }
+if(code.value===CODE){
+document.getElementById("err").textContent="";
+showPanel();
+}else{
+document.getElementById("err").textContent="指令不正确";
+code.select();
+}
 }
 document.getElementById("loginForm").addEventListener("submit",function(e){e.preventDefault();enter();});
-document.getElementById("logout").onclick=function(){pwd.value="";panel.style.display="none";gate.style.display="flex";};
+document.getElementById("logout").onclick=function(){code.value="";panel.style.display="none";gate.style.display="flex";};
 document.getElementById("refresh").onclick=function(){load();};
+
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
-function fmt(n){return (n==null?0:n).toLocaleString("zh-CN");}
+function num(n){return Number(n||0).toLocaleString("zh-CN");}
+
 function fetchJSON(path){
-  var target="https://api.github.com"+path;
-  var tries=[
-    target,
-    "https://api.allorigins.win/raw?url="+encodeURIComponent(target)
-  ];
-  var p=Promise.reject();
-  tries.forEach(function(u){
-    p=p.catch(function(){
-      return fetch(u,{headers:{"Accept":"application/vnd.github+json"}}).then(function(r){
-        if(!r.ok)throw new Error("HTTP "+r.status);
-        return r.json();
-      });
-    });
-  });
-  return p;
+var base="https://api.github.com"+path;
+var urls=[
+base,
+"https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(base),
+"https://api.allorigins.win/raw?url="+encodeURIComponent(base)
+];
+var chain=Promise.reject();
+urls.forEach(function(u){
+chain=chain.catch(function(){
+return fetch(u,{headers:{"Accept":"application/vnd.github+json"}}).then(function(r){
+if(!r.ok)throw new Error("HTTP "+r.status);
+return r.json();
+});
+});
+});
+return chain;
 }
+
 function load(){
-  document.getElementById("rel").innerHTML='<div class="loading">正在加载数据…</div>';
-  Promise.all([
-    fetchJSON("/repos/"+REPO),
-    fetchJSON("/repos/"+REPO+"/releases?per_page=100")
-  ]).then(function(res){render(res[0],res[1]);})
-  .catch(function(e){
-    var msg=String(e.message||"").indexOf("403")>=0?"GitHub 匿名访问频率受限，请稍后或更换网络后重试。":"数据加载失败："+esc(e.message)+"，请稍后重试。";
-    document.getElementById("rel").innerHTML='<div class="loading">'+msg+'</div>';
-  });
+document.getElementById("rel").innerHTML='<div class="wait">加载中…</div>';
+Promise.all([
+fetchJSON("/repos/"+REPO),
+fetchJSON("/repos/"+REPO+"/releases?per_page=100")
+]).then(function(a){render(a[0],a[1]);})
+.catch(function(e){
+var m=String(e.message||"").indexOf("403")>=0?"访问受限，稍后再试。":"加载失败："+esc(e.message);
+document.getElementById("rel").innerHTML='<div class="wait">'+m+"</div>";
+});
 }
+
 function render(repo,releases){
-  var total=0,latest=null;
-  releases.forEach(function(r){
-    var rv=0;(r.assets||[]).forEach(function(a){rv+=a.download_count;});
-    r._sum=rv;total+=rv;
-    if(!latest&&!r.prerelease&&!r.draft)latest=r;
-  });
-  if(!latest&&releases.length)latest=releases[0];
-  var stats=[
-    ["总下载量",fmt(total)],
-    ["最新版本",latest?esc(latest.tag_name):"—"],
-    ["收藏人数",fmt(repo.stargazers_count)],
-    ["关注人数",fmt(repo.subscribers_count)],
-    ["派生数量",fmt(repo.forks_count)],
-    ["发布版本数",fmt(releases.length)]
-  ];
-  document.getElementById("stats").innerHTML=stats.map(function(s){
-    return '<div class="stat"><div class="n">'+s[1]+'</div><div class="l">'+s[0]+'</div></div>';
-  }).join("");
-  var rows=releases.map(function(r){
-    var assets=(r.assets||[]).map(function(a){
-      return '<div class="asset">'+esc(a.name)+' <span class="num">'+fmt(a.download_count)+'</span></div>';
-    }).join("")||'<span class="muted">无附件</span>';
-    var d=r.published_at?new Date(r.published_at).toLocaleString("zh-CN"):"—";
-    var pre=r.prerelease?'<span class="prebadge">预发布</span>':"";
-    return "<tr><td><b>"+esc(r.tag_name)+"</b>"+pre+"<br><span class='muted'>"+d+"</span></td><td>"+assets+"</td><td class='num'><b>"+fmt(r._sum)+"</b></td></tr>";
-  }).join("");
-  document.getElementById("rel").innerHTML="<table><thead><tr><th>版本</th><th>附件下载</th><th class='num'>合计</th></tr></thead><tbody>"+rows+"</tbody></table>";
-  document.getElementById("updated").textContent="数据来源：GitHub Releases 实时统计 · 更新于 "+new Date().toLocaleString("zh-CN");
+var total=0,latest=null;
+releases.forEach(function(r){
+var sum=0;
+(r.assets||[]).forEach(function(a){sum+=a.download_count;});
+r._sum=sum;
+total+=sum;
+if(!latest&&!r.prerelease&&!r.draft)latest=r;
+});
+if(!latest&&releases.length)latest=releases[0];
+var cards=[
+["总下载量",num(total)],
+["最新版本",latest?esc(latest.tag_name):"—"],
+["收藏",num(repo.stargazers_count)],
+["关注",num(repo.subscribers_count)],
+["派生",num(repo.forks_count)],
+["版本数",num(releases.length)]
+];
+document.getElementById("cards").innerHTML=cards.map(function(c){
+return '<div class="card"><div class="n">'+c[1]+'</div><div class="l">'+c[0]+"</div></div>";
+}).join("");
+var rows=releases.map(function(r){
+var assets=(r.assets||[]).map(function(a){
+return "<div>"+esc(a.name)+' <span class="num">'+num(a.download_count)+"</span></div>";
+}).join("")||'<span class="muted">无附件</span>';
+var d=r.published_at?new Date(r.published_at).toLocaleString("zh-CN"):"—";
+return "<tr><td><b>"+esc(r.tag_name)+'</b><br><span class="muted">'+d+'</span></td><td>'+assets+'</td><td class="num"><b>'+num(r._sum)+"</b></td></tr>";
+}).join("");
+document.getElementById("rel").innerHTML="<table><thead><tr><th>版本</th><th>附件下载</th><th class=\"num\">合计</th></tr></thead><tbody>"+rows+"</tbody></table>";
+document.getElementById("updated").textContent="GitHub Releases 实时数据 · "+new Date().toLocaleString("zh-CN");
 }
 </script>
 </body>
