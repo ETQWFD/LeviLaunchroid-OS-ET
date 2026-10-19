@@ -394,14 +394,8 @@
     </plurals>
 
     <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">Play ストア版が必要です</string>
-    <string name="minecraft_playstore_required_message">このランチャーは Google Play ストアの公式アプリでのみ動作します。</string>
     <string name="buy_minecraft">Minecraft を入手</string>
-    <string name="minecraft_not_installed_title">Minecraft が未インストール</string>
-    <string name="minecraft_not_installed_message">Minecraft がインストールされていません。Google Play ストアからインストールしてください。</string>
     <string name="install_minecraft">Minecraft をインストール</string>
-    <string name="genuine_badge_label">ライセンス未確認</string>
-    <string name="invalid_license_detected_toast">非正規品が検出されました。Play ストアからの Minecraft であることを確認してください。</string>
 
     <string name="full_mods_title">モッド </string>
     <string name="total_mods">合計モッド数:</string>

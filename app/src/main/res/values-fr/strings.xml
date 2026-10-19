@@ -394,14 +394,8 @@
     </plurals>
 
     <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">Version Play Store requise</string>
-    <string name="minecraft_playstore_required_message">Ce lanceur fonctionne uniquement avec l\'application officielle Minecraft du Google Play Store.</string>
     <string name="buy_minecraft">Obtenir Minecraft</string>
-    <string name="minecraft_not_installed_title">Minecraft non installé</string>
-    <string name="minecraft_not_installed_message">Minecraft n\'est pas installé sur votre appareil. Veuillez l\'installer à partir du Google Play Store.</string>
     <string name="install_minecraft">Installer Minecraft</string>
-    <string name="genuine_badge_label">Licence non vérifiée</string>
-    <string name="invalid_license_detected_toast">Minecraft non officiel détecté. Assurez-vous d\'avoir la version du Play Store.</string>
 
     <string name="full_mods_title">Mods </string>
     <string name="total_mods">Total des mods :</string>

@@ -396,14 +396,8 @@
     </plurals>
 
     <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">Требуется версия из Play Маркета</string>
-    <string name="minecraft_playstore_required_message">Этот лаунчер работает только с официальным приложением Minecraft из Google Play Маркета. Пожалуйста, установите версию из Play Маркета, чтобы продолжить.</string>
     <string name="buy_minecraft">Получить Minecraft</string>
-    <string name="minecraft_not_installed_title">Minecraft не установлен</string>
-    <string name="minecraft_not_installed_message">Похоже, что Minecraft не установлен на вашем устройстве. Пожалуйста, установите его из Google Play Маркета, чтобы использовать этот лаунчер.</string>
     <string name="install_minecraft">Установить Minecraft</string>
-    <string name="genuine_badge_label">Лицензия не подтверждена</string>
-    <string name="invalid_license_detected_toast">Обнаружена нелицензионная версия Minecraft. Убедитесь, что Minecraft установлен из Google Play Маркета</string>
 
     <string name="full_mods_title">Моды</string>
     <string name="total_mods">Всего модов: </string>

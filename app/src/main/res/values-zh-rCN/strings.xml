@@ -394,14 +394,8 @@
     </plurals>
 
     <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">需要 Play 商店版本</string>
-    <string name="minecraft_playstore_required_message">此启动器仅适用于从 Google Play 商店下载的官方 Minecraft。请安装 Play 商店版本后再继续。</string>
     <string name="buy_minecraft">获取 Minecraft</string>
-    <string name="minecraft_not_installed_title">未安装 Minecraft</string>
-    <string name="minecraft_not_installed_message">您的设备上似乎没有安装 Minecraft。请先从 Google Play 商店安装以使用此启动器。</string>
     <string name="install_minecraft">安装 Minecraft</string>
-    <string name="genuine_badge_label">未通过正版验证</string>
-    <string name="invalid_license_detected_toast">非正版MC，请确保设备上MC来自于谷歌商店</string>
 
     <string name="full_mods_title">模组 </string>
     <string name="total_mods">模组总数：</string>

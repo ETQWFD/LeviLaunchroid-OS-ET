@@ -166,6 +166,7 @@ class GamePackageManager private constructor(
                 }
             }
             ensureBundledLibs(outputDir)
+            ensureUserBundledLibs(outputDir)
             return
         }
         report("Minecraft library cache miss: extracting libraries")
@@ -196,6 +197,7 @@ class GamePackageManager private constructor(
             apkPaths.forEach { extractFromApk(it, outputDir, deviceAbi) }
         }
         ensureBundledLibs(outputDir)
+        ensureUserBundledLibs(outputDir)
         verifyLibraries(outputDir)
 
         // ET 版：纯 32 位设备 + 仅含 arm64 库的新版 Minecraft（官方 2025-03 起停 ARM32）时，
@@ -378,15 +380,32 @@ class GamePackageManager private constructor(
                 val own = File(ownDir, libName)
                 if (own.exists() && own.length() > 0) {
                     own.inputStream().use { input -> copyStreamToReadOnlyFile(input, target) }
-                    if (!processNativeImage(target, true)) {
-                        target.delete()
-                        Log.w(TAG, "Bundled $libName failed native image preparation")
-                        continue
-                    }
                     report("Provided bundled $libName for device ABI")
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "Failed to provide bundled $libName: ${e.message}")
+            }
+        }
+    }
+
+    private fun ensureUserBundledLibs(outputDir: File) {
+        val abi = if (LauncherAbis.hasArm64()) "arm64-v8a" else "armeabi-v7a"
+        val names = try {
+            context.assets.list("etnative/$abi")
+        } catch (_: Exception) {
+            null
+        } ?: return
+        for (name in names) {
+            if (!name.endsWith(".so") || name == "libminecraftpe.so") continue
+            val target = File(outputDir, name)
+            if (target.exists() && target.length() > 0) continue
+            try {
+                context.assets.open("etnative/$abi/$name").use { input ->
+                    copyStreamToReadOnlyFile(input, target)
+                }
+                report("Provided user bundled native library $name")
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to provide user bundled $name: ${e.message}")
             }
         }
     }
@@ -722,7 +741,7 @@ class GamePackageManager private constructor(
 
     companion object {
         private const val TAG = "GamePackageManager"
-        private const val EXTRACTOR_VERSION = 5
+        private const val EXTRACTOR_VERSION = 6
 
         @Volatile
         private var instance: GamePackageManager? = null

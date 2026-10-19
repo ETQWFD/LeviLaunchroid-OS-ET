@@ -394,14 +394,8 @@
     </plurals>
 
     <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">Versi Play Store Diperlukan</string>
-    <string name="minecraft_playstore_required_message">Peluncur ini hanya berfungsi dengan aplikasi Minecraft resmi dari Google Play Store. Silakan instal versi Play Store untuk melanjutkan.</string>
     <string name="buy_minecraft">Dapatkan Minecraft Di Play Store</string>
-    <string name="minecraft_not_installed_title">Minecraft Belum Terinstal</string>
-    <string name="minecraft_not_installed_message">Minecraft belum terpasang di perangkat Anda. Silakan instal dari Google Play Store untuk menggunakan peluncur ini.</string>
     <string name="install_minecraft">Instal Minecraft</string>
-    <string name="genuine_badge_label">Lisensi tidak ter-verifikasi</string>
-    <string name="invalid_license_detected_toast">Minecraft palsu terdeteksi. Pastikan Minecraft Anda berasal dari Google Play Store.</string>
 
     <string name="full_mods_title">Mods </string>
     <string name="total_mods">Total Mods:</string>

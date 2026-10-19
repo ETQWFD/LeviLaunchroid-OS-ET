@@ -394,14 +394,8 @@
     </plurals>
 
     <!-- Play Store Validation -->
-    <string name="minecraft_playstore_required_title">Cần có phiên bản Play Store</string>
-    <string name="minecraft_playstore_required_message">Trình khởi chạy này chỉ hoạt động với ứng dụng Minecraft chính thức từ Google Play Store. Vui lòng cài đặt phiên bản từ Play Store để tiếp tục.</string>
     <string name="buy_minecraft">Lấy Minecraft</string>
-    <string name="minecraft_not_installed_title">Minecraft chưa được cài đặt</string>
-    <string name="minecraft_not_installed_message">Minecraft chưa được cài đặt trên thiết bị của bạn. Vui lòng cài đặt trò chơi từ Google Play Store để sử dụng launcher này.</string>
     <string name="install_minecraft">Cài đặt Minecraft</string>
-    <string name="genuine_badge_label">Giấy phép chưa được xác minh</string>
-    <string name="invalid_license_detected_toast">Đã phát hiện Minecraft không phải bản chính hãng. Hãy đảm bảo Minecraft của bạn được tải từ Google Play Store.</string>
 
     <string name="full_mods_title">Mods </string>
     <string name="total_mods">Tổng các Mods:</string>
