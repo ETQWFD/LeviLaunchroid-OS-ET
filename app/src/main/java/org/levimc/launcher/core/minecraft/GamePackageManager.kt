@@ -165,6 +165,7 @@ class GamePackageManager private constructor(
                     Log.w(TAG, "Failed ensureReadOnly: ${e.message}")
                 }
             }
+            ensureBundledLibs(outputDir)
             return
         }
         report("Minecraft library cache miss: extracting libraries")
@@ -194,9 +195,7 @@ class GamePackageManager private constructor(
             val apkPaths = apkFiles.map { it.absolutePath }
             apkPaths.forEach { extractFromApk(it, outputDir, deviceAbi) }
         }
-        // 启动器自身已为 armv7/arm64 编译并随包携带这两个运行时库，游戏包缺失时用本设备 ABI 的自带库兜底。
-        ensureBundledLauncherLib(outputDir, "libc++_shared.so")
-        ensureBundledLauncherLib(outputDir, "libHttpClient.Android.so")
+        ensureBundledLibs(outputDir)
         verifyLibraries(outputDir)
 
         // ET 版：纯 32 位设备 + 仅含 arm64 库的新版 Minecraft（官方 2025-03 起停 ARM32）时，
@@ -368,22 +367,27 @@ class GamePackageManager private constructor(
         }
     }
 
-    private fun ensureBundledLauncherLib(outputDir: File, libName: String) {
-        val target = File(outputDir, libName)
-        if (target.exists() && target.length() > 0) return
-        try {
-            val own = File(context.applicationInfo.nativeLibraryDir, libName)
-            if (own.exists() && own.length() > 0) {
-                own.inputStream().use { input -> copyStreamToReadOnlyFile(input, target) }
-                if (!processNativeImage(target, true)) {
-                    target.delete()
-                    Log.w(TAG, "Bundled $libName failed native image preparation")
-                    return
+    private fun ensureBundledLibs(outputDir: File) {
+        val ownDir = File(context.applicationInfo.nativeLibraryDir)
+        if (!ownDir.exists()) return
+        for (libName in extractableLibs) {
+            if (libName == "libminecraftpe.so") continue
+            val target = File(outputDir, libName)
+            if (target.exists() && target.length() > 0) continue
+            try {
+                val own = File(ownDir, libName)
+                if (own.exists() && own.length() > 0) {
+                    own.inputStream().use { input -> copyStreamToReadOnlyFile(input, target) }
+                    if (!processNativeImage(target, true)) {
+                        target.delete()
+                        Log.w(TAG, "Bundled $libName failed native image preparation")
+                        continue
+                    }
+                    report("Provided bundled $libName for device ABI")
                 }
-                report("Provided bundled $libName for device ABI")
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to provide bundled $libName: ${e.message}")
             }
-        } catch (e: Exception) {
-            Log.w(TAG, "Failed to provide bundled $libName: ${e.message}")
         }
     }
 
@@ -718,7 +722,7 @@ class GamePackageManager private constructor(
 
     companion object {
         private const val TAG = "GamePackageManager"
-        private const val EXTRACTOR_VERSION = 4
+        private const val EXTRACTOR_VERSION = 5
 
         @Volatile
         private var instance: GamePackageManager? = null
